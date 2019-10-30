@@ -139,4 +139,10 @@
       <Name>Go</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\baseline_menu_black_18dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\baseline_menu_white_18dp.png" />
+  </ItemGroup>
 </Project>
