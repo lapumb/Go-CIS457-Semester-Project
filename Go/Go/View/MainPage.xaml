@@ -17,6 +17,11 @@
             <Label Text="Welcome to Xamarin.Forms!"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
+            <Button 
+                Text="Continue to Game"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"
+                    Clicked="ContinueToGame_Clicked" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
