@@ -24,13 +24,13 @@ namespace Go.View
         int cellSize;
         int xMargin;
         int yMargin;
-        readonly int size; 
+        readonly int size;
 
         GoGrid goGrid = new GoGrid();
 
-        public GamePage(int size)
+        public GamePage(int size = 5)
         {
-            this.size = size; 
+            this.size = size;
             InitializeComponent();
         }
 

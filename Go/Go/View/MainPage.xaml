@@ -17,11 +17,13 @@
             <Label Text="Welcome to Xamarin.Forms!"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
+            <ActivityIndicator
+                IsRunning="{Binding Running}"/>
             <Button 
                 Text="Continue to Game"
                     VerticalOptions="Center"
                     HorizontalOptions="Center"
-                    Clicked="ContinueToGame_Clicked" />
+                    Command="{Binding ToGameCommand}" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
