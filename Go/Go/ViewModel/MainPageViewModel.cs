@@ -29,21 +29,17 @@ namespace Go.ViewModel
                 "6",
                 "7",
                 "8",
-                "9",
-                "11",
-                "13",
-                "15",
-                "19"
+                "9"
                 };
 
-            string result = await MainPage.Main.DisplayActionSheet("Select Board Size (NxN)", null, null, btns);
+            string result = await MainPage.Game.DisplayActionSheet("Select Board Size (NxN)", null, null, btns);
             if (result != null)
             {
                 try
                 {
                     Running = true;
                     var nextPage = new GamePage(Convert.ToInt32(result));
-                    await MainPage.Main.Navigation.PushAsync(nextPage);
+                    await MainPage.Game.Navigation.PushAsync(nextPage);
                     Running = false;
                 }
                 catch (Exception e)
