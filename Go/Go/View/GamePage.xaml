@@ -5,12 +5,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="Go.View.GamePage"
-             Title="Game Page"
+             Title="Go"
              xmlns:vm="clr-namespace:Go.ViewModel">
 
     <!--Setting the ViewModel for the view-->
     <ContentPage.BindingContext>
-        <vm:GamePageViewController></vm:GamePageViewController>
+        <vm:GamePageViewModel></vm:GamePageViewModel>
     </ContentPage.BindingContext>
 
     <StackLayout>
@@ -172,12 +172,12 @@
         <FlexLayout Padding="10" JustifyContent="SpaceEvenly" HorizontalOptions="FillAndExpand">
             <Button Text="Pass" Command="{Binding PassCommand}" 
                     Visual="Material"
-                    BackgroundColor="RosyBrown"
+                    BackgroundColor="AliceBlue"
                     BorderColor="Black"
                     BorderWidth="1"/>
             <Button Text="Quit" Command="{Binding QuitCommand}" 
                     Visual="Material" 
-                    BackgroundColor="RosyBrown"
+                    BackgroundColor="AliceBlue"
                     BorderColor="Black"
                     BorderWidth="1"/>
         </FlexLayout>

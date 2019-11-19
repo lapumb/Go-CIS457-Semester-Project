@@ -6,24 +6,30 @@
              mc:Ignorable="d"
              x:Class="Go.View.MainPage"
              xmlns:vm="clr-namespace:Go.ViewModel"
-             Title="Main Page :')">
+             Title="Welcome To Go!">
 
     <ContentPage.BindingContext>
         <vm:MainPageViewModel></vm:MainPageViewModel>
     </ContentPage.BindingContext>
     
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        <StackLayout Padding="20" 
+                     HorizontalOptions="FillAndExpand" 
+                     VerticalOptions="FillAndExpand">
+            <Image Source=""/>
             <ActivityIndicator
+                VerticalOptions="EndAndExpand"
+                HorizontalOptions="Center"
+                Color="Blue"
                 IsRunning="{Binding Running}"/>
             <Button 
                 Text="Continue to Game"
-                    VerticalOptions="Center"
+                Visual="Material"
+                BackgroundColor="AliceBlue"
+                FontAttributes="Bold"
+                    VerticalOptions="End"
                     HorizontalOptions="Center"
-                    Command="{Binding ToGameCommand}" />
+                    Command="{Binding ToGameCommand}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

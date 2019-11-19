@@ -26,5 +26,11 @@ namespace Go.View
             Detail.Navigation.PushAsync(new AboutPage()); 
             IsPresented = false; 
         }
+
+        private void MatchHistory_Clicked(object sender, EventArgs e)
+        {
+            Detail.Navigation.PushAsync(new RecentMatchesPage());
+            IsPresented = false;
+        }
     }
 }

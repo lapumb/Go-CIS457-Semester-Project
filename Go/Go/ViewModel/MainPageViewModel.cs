@@ -8,8 +8,13 @@ using Xamarin.Forms;
 
 namespace Go.ViewModel
 {
-    class MainPageViewModel : INotifyPropertyChanged
+    public class MainPageViewModel : INotifyPropertyChanged
     {
+        public MainPageViewModel()
+        {
+            App.MainViewModel = this;
+        }
+
         private bool _running = false;
         public bool Running
         {
@@ -32,14 +37,14 @@ namespace Go.ViewModel
                 "9"
                 };
 
-            string result = await MainPage.Game.DisplayActionSheet("Select Board Size (NxN)", null, null, btns);
+            string result = await App.MainPg.DisplayActionSheet("Select Board Size (NxN)", null, null, btns);
             if (result != null)
             {
                 try
                 {
                     Running = true;
                     var nextPage = new GamePage(Convert.ToInt32(result));
-                    await MainPage.Game.Navigation.PushAsync(nextPage);
+                    await App.MainPg.Navigation.PushAsync(nextPage);
                     Running = false;
                 }
                 catch (Exception e)

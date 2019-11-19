@@ -5,11 +5,10 @@ using Xamarin.Forms.Xaml;
 namespace Go.View
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class AboutPage : ContentPage
+    public partial class RecentMatchesPage : ContentPage
     {
-        public AboutPage()
+        public RecentMatchesPage()
         {
-            App.AboutPg = this; 
             InitializeComponent();
         }
     }

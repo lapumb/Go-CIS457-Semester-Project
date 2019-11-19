@@ -5,7 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="Go.View.AboutPage"
-             Title="AboutPage"
+             Title="About"
              xmlns:vm="clr-namespace:Go.ViewModel">
 
     <ContentPage.BindingContext>
@@ -13,10 +13,46 @@
     </ContentPage.BindingContext>
 
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        <StackLayout Padding="20" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                <Label 
+                    FontSize="Large" 
+                    TextColor="Black"
+                    VerticalOptions="FillAndExpand"
+                    HorizontalOptions="FillAndExpand"
+                    Text="This implementation of the famous 'Go' strategy game was created for CIS 457 - Data Communications - as a semester project to implement a peer to peer network protocol.">
+                </Label>
+            <Label HorizontalOptions="CenterAndExpand"
+                    VerticalOptions="End">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="For rules: " />
+                        <Span Text="https://en.wikipedia.org/wiki/Rules_of_Go"
+                        TextColor="Blue"
+                        TextDecorations="Underline">
+                            <Span.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding LinkClickedCommand}"
+                                          CommandParameter="https://en.wikipedia.org/wiki/Rules_of_Go"/>
+                            </Span.GestureRecognizers>
+                        </Span>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Label HorizontalOptions="CenterAndExpand"
+                    VerticalOptions="End">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Repository: " />
+                        <Span Text="https://github.com/"
+                        TextColor="Blue"
+                        TextDecorations="Underline">
+                            <Span.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding LinkClickedCommand}"
+                                          CommandParameter="https://github.com/lapumb/Go-CIS457-Semester-Project"/>
+                            </Span.GestureRecognizers>
+                        </Span>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
