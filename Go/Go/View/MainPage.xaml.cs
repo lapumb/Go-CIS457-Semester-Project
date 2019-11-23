@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
+using Firebase.Database;
+using Go.Services;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -14,7 +12,14 @@ namespace Go.View
     {
         public MainPage()
         {
+            App.MainPg = this; 
             InitializeComponent();
+        }
+
+        protected async override void OnAppearing()
+        {
+            base.OnAppearing(); 
+            //await App.FirebaseClient.AddRecentMatch(DateTime.Now, "test", 55, 0);
         }
     }
 }

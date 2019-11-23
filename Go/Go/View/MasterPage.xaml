@@ -5,7 +5,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="Go.View.MasterPage"
-             Title="MasterPage"
              MasterBehavior="Popover">
 
     <MasterDetailPage.Master>
@@ -15,7 +14,14 @@
             IconImageSource="baseline_menu_black_18dp.png">
             <ContentPage.Content>
                 <StackLayout>
-                    <Label Text="Options"/>
+                    <Label 
+                        Text="Options"
+                        FontSize="Large"
+                        FontAttributes="Bold"/>
+                    <Button 
+                        BackgroundColor="White"
+                        Text="Match History"
+                        Clicked="MatchHistory_Clicked"/>
                     <Button 
                         BackgroundColor="White"
                         Text="About"
