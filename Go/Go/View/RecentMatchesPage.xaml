@@ -21,6 +21,52 @@
                    TextColor="Black"
                    VerticalOptions="StartAndExpand" 
                    HorizontalOptions="StartAndExpand"/>
+            <ListView x:Name="recentMatchesList" 
+                      ItemSelected="RecentMatchesList_ItemSelected"
+                      BackgroundColor="GhostWhite" 
+                      SeparatorColor="Black"
+                      VerticalOptions="FillAndExpand"
+                      HorizontalOptions="FillAndExpand"
+                      HasUnevenRows="True">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout HorizontalOptions="StartAndExpand" VerticalOptions="FillAndExpand" Padding="10">
+                                <Label Text="{Binding Date}" 
+                                           FontSize="Medium"
+                                           FontAttributes="Bold"
+                                           TextColor="Black"/>
+
+                                <FlexLayout Direction="Row" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                                    <Label Text="Opponent: " 
+                                           FontSize="Medium"
+                                           TextColor="Black"/>
+                                    
+                                    <Label Text="{Binding PlayedAgainst}" 
+                                           FontSize="Medium"
+                                           TextColor="Gray"/>
+                                </FlexLayout>
+                                <FlexLayout Direction="Row" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                                    <Label Text="Your Score: " 
+                                           FontSize="Medium"
+                                           TextColor="Black"/>
+                                    <Label Text="{Binding PlayerScore}" 
+                                           FontSize="Medium"
+                                           TextColor="Gray"/>
+                                </FlexLayout>
+                                <FlexLayout Direction="Row" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                                    <Label Text="Opponent Score: " 
+                                           FontSize="Medium"
+                                           TextColor="Black"/>
+                                    <Label Text="{Binding OpponentScore}" 
+                                           FontSize="Medium"
+                                           TextColor="Gray"/>
+                                </FlexLayout>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
