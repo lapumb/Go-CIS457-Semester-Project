@@ -1,5 +1,7 @@
 ﻿using Go.Model;
+using System;
 using System.Diagnostics;
+using System.Net.Sockets;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -11,12 +13,36 @@ namespace Go.View
         //https://github.com/xamarin/xamarin-forms-samples/tree/master/BoxView/GameOfLife
         readonly int size;
         public GoGame Game { get; set; } = new GoGame();
+        public TcpClient Client { get; set; }
         public GamePage(int size = 5)
         {
-            App.GamePg = this;
-            this.size = size;
+            //App.GamePg = this;
+            this.size = size-1;
+            //App.Master.IsGestureEnabled = false; 
             InitializeComponent();
-            InitLayout(); 
+            //InitLayout(); 
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            App.GamePg = this;
+            App.Master.IsGestureEnabled = false;
+            InitLayout();
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing(); 
+            if (Client.Connected)
+            {
+                Client.Close();
+                Client.Dispose();
+                return;
+            }
+
+            Client.Dispose();
+            App.GamePg = null;
         }
 
         /// <summary>
@@ -61,7 +87,7 @@ namespace Go.View
                 var scalar = 0; 
                 if (Utilities.Utilities.DeviceIsAndroid() || Utilities.Utilities.DeviceIsIphone())
                 {
-                    Debug.WriteLine("Init for UWP device.");
+                    Debug.WriteLine("Init for Android/iOS device.");
                     scalar = 10 - (size % 10);
                     scalar = scalar == 1 ? 2 : scalar;
                 }

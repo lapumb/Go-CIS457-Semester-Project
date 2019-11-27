@@ -16,7 +16,8 @@ namespace Go
         public static MainPageViewModel MainViewModel { get; set; } = null;
         public static AboutPageViewModel AboutViewModel { get; set; } = null;
         public static GamePageViewModel GameViewModel { get; set; } = null;
-        public static RecentMatchesViewModel RecentsViewModel { get; set; }
+        public static RecentMatchesViewModel RecentsViewModel { get; set; } = null;
+        public static MasterPage Master { get; set; } = null; 
         public App()
         {
             InitializeComponent();

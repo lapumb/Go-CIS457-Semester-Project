@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -16,6 +11,7 @@ namespace Go.View
         public MasterPage()
         {
             InitializeComponent();
+            App.Master = this; 
             //start by opening the main page
             Detail = new NavigationPage(new MainPage());
             IsPresented = false;

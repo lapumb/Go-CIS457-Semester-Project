@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Net;
+using System.Net.Sockets;
+using System.Threading.Tasks;
 
 namespace Go.Utilities
 {
@@ -60,6 +62,38 @@ namespace Go.Utilities
                 return 0;
             else
                 return -1;
+        }
+
+        /*
+         * Returns the Network IP
+         */
+        public static IPEndPoint GetNetwork()
+        {
+            IPAddress[] localIp = Dns.GetHostAddresses(Dns.GetHostName());
+            string temp = "";
+            foreach (IPAddress address in localIp)
+            {
+                if (address.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    temp = address.ToString();
+                }
+            }
+
+            return new IPEndPoint(IPAddress.Parse(temp), 1234);
+        }
+
+        public static IPEndPoint SetIpAddress(string addr)
+        {
+            IPAddress[] localIp = Dns.GetHostAddresses(addr);
+            string temp = "";
+            foreach (IPAddress address in localIp)
+            {
+                if (address.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    temp = address.ToString();
+                }
+            }
+            return new IPEndPoint(IPAddress.Parse(temp), 1234);
         }
     }
 }
