@@ -9,7 +9,6 @@ namespace Go.Model
     {
         public Dictionary<string, GoPiece> GameGrid { get; set; } = new Dictionary<string, GoPiece>();
         public int Turn { get; set; } = 0;
-
         public void IncrementTurn()
         {
             Turn++;
