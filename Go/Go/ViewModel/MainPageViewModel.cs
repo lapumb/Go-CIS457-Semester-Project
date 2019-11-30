@@ -6,7 +6,6 @@ using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.CompilerServices;
-using System.Threading;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -31,6 +30,13 @@ namespace Go.ViewModel
             }
         }
 
+        /// <summary>
+        /// ToGameCommand is a binded command and has several steps
+        ///     1. establish network end point (ie where / what socket we want to connect to)
+        ///     2. when a user selects a grid size, user will attemp to connect to the ALREADY RUNNING central server
+        ///     3a. connection will attempt for five seconds, then timeout. on connection, the grid page will be instantiated
+        ///     3b. if a connection cannot be established, an error msg will pop up and user will not be navigated to game page
+        /// </summary>
         public ICommand ToGameCommand => new Command(async () =>
         {
             EndPoint = Utilities.Utilities.SetIpAddress("192.168.1.7");
@@ -51,22 +57,21 @@ namespace Go.ViewModel
                 try
                 {
                     Running = true;
-                    var nextPage = new GamePage(Convert.ToInt32(result))
+                    var gamePage = new GamePage(Convert.ToInt32(result))
                     {
                         Client = new TcpClient()
                     };
                     try
                     {
                         Debug.WriteLine("Connecting...");
-                        nextPage.Client.ConnectAsync(EndPoint.Address, EndPoint.Port).Wait(TimeSpan.FromMilliseconds(5000));
-                        if (nextPage.Client.Connected)
+                        gamePage.Client.ConnectAsync(EndPoint.Address, EndPoint.Port).Wait(TimeSpan.FromMilliseconds(5000));
+                        if (gamePage.Client.Connected)
                         {
                             Running = false;
                             Debug.WriteLine("Connected to server.");
-                            await App.MainPg.DisplayAlert("Yah YEET", "You're connected mafuckaaaaaaaa", "YEET OKAY");
-                            Connection.Instance.Client = nextPage.Client;
+                            Connection.Instance.Client = gamePage.Client;
                             Running = true; 
-                            await App.MainPg.Navigation.PushAsync(nextPage);
+                            await App.MainPg.Navigation.PushAsync(gamePage);
                             Running = false; 
                         }
                         else

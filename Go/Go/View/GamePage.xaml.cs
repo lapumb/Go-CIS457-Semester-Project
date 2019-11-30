@@ -16,11 +16,8 @@ namespace Go.View
         public TcpClient Client { get; set; }
         public GamePage(int size = 5)
         {
-            //App.GamePg = this;
             this.size = size-1;
-            //App.Master.IsGestureEnabled = false; 
             InitializeComponent();
-            //InitLayout(); 
         }
 
         protected override void OnAppearing()
@@ -33,16 +30,10 @@ namespace Go.View
 
         protected override void OnDisappearing()
         {
-            base.OnDisappearing(); 
-            if (Client.Connected)
-            {
-                Client.Close();
-                Client.Dispose();
-                return;
-            }
-
-            Client.Dispose();
+            base.OnDisappearing();
+            Connection.Instance.ClosingSequence(); 
             App.GamePg = null;
+            App.Master.IsGestureEnabled = true;
         }
 
         /// <summary>
@@ -93,7 +84,7 @@ namespace Go.View
                 }
                 else if (Utilities.Utilities.DeviceIsUWP())
                 {
-                    Debug.WriteLine("Init for android device.");
+                    Debug.WriteLine("Init for UWP device.");
                     scalar = 12 - (size % 10);
                     scalar = scalar == 2 ? 3 : scalar;
                 }

@@ -9,7 +9,6 @@ namespace Go.View
         public MainPage()
         {
             App.MainPg = this;
-            App.Master.IsGestureEnabled = true; 
             InitializeComponent();
         }
     }
