@@ -79,7 +79,7 @@ namespace Go.Utilities
                 }
             }
 
-            return new IPEndPoint(IPAddress.Parse(temp), 1234);
+            return new IPEndPoint(IPAddress.Parse(temp), 12000);
         }
 
         public static IPEndPoint SetIpAddress(string addr)
@@ -93,7 +93,7 @@ namespace Go.Utilities
                     temp = address.ToString();
                 }
             }
-            return new IPEndPoint(IPAddress.Parse(temp), 1234);
+            return new IPEndPoint(IPAddress.Parse(temp), 12000);
         }
     }
 }

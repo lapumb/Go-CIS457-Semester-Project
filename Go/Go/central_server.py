@@ -5,7 +5,7 @@ import xml.etree.ElementTree as ET
 from os import listdir, path
 
 
-PORT = 1234
+PORT = 12000
 host_name = socket.gethostname() 
 IP = socket.gethostbyname(host_name) 
 SERVER_PORTS = 18397
