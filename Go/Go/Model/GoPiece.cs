@@ -26,7 +26,7 @@ namespace Go.Model
                     btn.BorderColor = Color.Black;
                     btn.BackgroundColor = game.Turn % 2 == 0 ? Color.Black : Color.White;
                     used = true;
-                    game.Turn++;
+                    game.PerformMove();
                 }
                 else
                     Debug.WriteLine("piece has already been used."); 
@@ -41,6 +41,13 @@ namespace Go.Model
         public Color GetColor()
         {
             return piece.BackgroundColor; 
+        }
+
+
+        public void removePiece()
+        {
+            piece.BackgroundColor = Color.Transparent;
+            piece.BorderColor = Color.Transparent;
         }
     }
 }
