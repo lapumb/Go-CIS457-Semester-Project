@@ -41,13 +41,13 @@ namespace Go.Model
             }
         }
 
-        public void ClosingSequence()
+        public void ClosingSequence(string opponent)
         {
             if (Client == null) return;
 
             if (Client.Connected)
             {
-                Instance.Send("QUIT " + UserInfo.User.Username);
+                Instance.Send("QUIT " + UserInfo.User.Username + " " + opponent);
                 Debug.WriteLine("Sent 'QUIT', receiving: " + Instance.Receive());
                 Client.Close();
             }
@@ -79,19 +79,26 @@ namespace Go.Model
                 // Check to see if this NetworkStream is readable.
                 if (stream.CanRead)
                 {
-                    byte[] myReadBuffer = new byte[1024];
-                    int numberOfBytesRead = 0;
-
-                    // Incoming message may be larger than the buffer size.
-                    do
+                    try
                     {
-                        numberOfBytesRead = stream.Read(myReadBuffer, 0, myReadBuffer.Length);
-                        myCompleteMessage.AppendFormat("{0}", Encoding.ASCII.GetString(myReadBuffer, 0, numberOfBytesRead));
+                        byte[] myReadBuffer = new byte[1024];
+                        int numberOfBytesRead = 0;
+
+                        // Incoming message may be larger than the buffer size.
+                        do
+                        {
+                            numberOfBytesRead = stream.Read(myReadBuffer, 0, myReadBuffer.Length);
+                            myCompleteMessage.AppendFormat("{0}", Encoding.ASCII.GetString(myReadBuffer, 0, numberOfBytesRead));
+                        }
+                        while (stream.DataAvailable);
+                        // Print out the received message to the console.
+                        Console.WriteLine("You received the following message : " +
+                                                     myCompleteMessage);
                     }
-                    while (stream.DataAvailable);
-                    // Print out the received message to the console.
-                    Console.WriteLine("You received the following message : " +
-                                                 myCompleteMessage);
+                    catch (Exception e)
+                    {
+                        Debug.WriteLine("C/R, caught : " + e.Message);
+                    }
                 }
                 else
                 {

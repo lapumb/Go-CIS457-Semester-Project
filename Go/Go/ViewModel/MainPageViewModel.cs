@@ -40,7 +40,11 @@ namespace Go.ViewModel
         public ICommand ToGameCommand => new Command(async () =>
         {
             //TODO: needs to be your own IP address
+<<<<<<< HEAD
             EndPoint = Utilities.Utilities.SetIpAddress("35.40.132.68");     //192.168.1.7
+=======
+            EndPoint = Utilities.Utilities.SetIpAddress("35.40.133.71");     //192.168.1.7
+>>>>>>> 1eccd21444f5f6bdda214f3a616c5bf7055a1c44
             //EndPoint = Utilities.Utilities.GetNetwork(); 
             Debug.WriteLine("Set Netowrk EndPoint (Connection) to : " + EndPoint.ToString()); 
             string[] btns =
@@ -72,10 +76,12 @@ namespace Go.ViewModel
                             Debug.WriteLine("Connected to server.");
                             Connection.Instance.Client = gamePage.Client;
                             Connection.Instance.Send("CONNECT " + UserInfo.User.Username + " " + result);
+                            string userName = Connection.Instance.Receive().Split()[0];
+                            Connection.Instance.Send("Ack");
+                            UserInfo.User.Username = userName;
                             string opponent = Connection.Instance.Receive();
                             Debug.WriteLine(opponent);
                             string[] opp = opponent.Split();
-                            UserInfo.User.Username = opp[0];
                             gamePage.OpponentSet(opp[0]);
 
                             Running = true;
@@ -84,7 +90,12 @@ namespace Go.ViewModel
 
                             if (Int32.Parse(opp[1]) == 1)
                             {
+                                gamePage.Game.myColor = 1;
                                 gamePage.WaitForUserMove();
+                            }
+                            else
+                            {
+                                gamePage.Game.myColor = 0;
                             }
                         }
                         else

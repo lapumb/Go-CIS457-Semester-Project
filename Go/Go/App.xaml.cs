@@ -2,6 +2,9 @@
 using Go.View;
 using Go.ViewModel;
 using Go.Services;
+using Go.Model;
+using System;
+using System.Diagnostics;
 
 namespace Go
 {
@@ -23,6 +26,24 @@ namespace Go
         {
             InitializeComponent();
             MainPage = new MasterPage();
+            
+        }
+
+        /// <summary>
+        /// Anytime "OnSleep" is called, close the socket. 
+        /// We do not want to keep a connection alive if we are running in background
+        /// </summary>
+        protected override void OnSleep()
+        {
+            base.OnSleep();
+            try
+            {
+                Connection.Instance.ClosingSequence(GamePg.Game.Opponent);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("App/OnSleep, Caught : " + e.Message); 
+            }
         }
     }
 }

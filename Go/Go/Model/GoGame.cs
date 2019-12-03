@@ -12,6 +12,7 @@ namespace Go.Model
         public string Opponent { get; set; }
         public int blackScore;
         public int whiteScore;
+        public int myColor;
 
         public GoGame(int boardSize)
         {
@@ -260,7 +261,11 @@ namespace Go.Model
 
             await App.MainPg.DisplayAlert("Game Over", "The game is over. " + winner, "Okay");
             if (!UserInfo.User.Password.Contains("Guest"))
-                await App.FirebaseClient.AddRecentMatch(DateTime.Now, Opponent, blackScore, whiteScore); 
+            {
+                var myScore = myColor == 1 ? whiteScore : blackScore;
+                var opponentScore = myColor == 0 ? blackScore : whiteScore;
+                await App.FirebaseClient.AddRecentMatch(DateTime.Now, Opponent, myScore, opponentScore);
+            }
 
             await App.MainPg.Navigation.PopAsync();
         }
