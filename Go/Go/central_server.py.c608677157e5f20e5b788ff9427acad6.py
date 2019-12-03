@@ -8,8 +8,8 @@ import copy
 
 PORT = 12000
 host_name = socket.gethostname() 
-IP = socket.gethostbyname(host_name) 
-#IP = "127.0.0.1"
+#IP = socket.gethostbyname(host_name) 
+IP = "127.0.0.1"
 SERVER_PORTS = 18397
 userDict = {}
 print("IP: " + IP)
@@ -28,22 +28,21 @@ class Client(threading.Thread):
                 cmd = self.request.recv(1024).decode('utf-8')
                 command = cmd.split()
                 print(command)
-                if len(command) > 0 and command[0] == "QUIT":
+                if command.size() > 0 and command[0] == "QUIT":
                     self.quit(command[1])
                     return
                # port = int(command[len(command) - 1])
                 print("connecting...")
-                if len(command) > 0 and command[0] == "MOVE":
+                if command.size() > 0 and and command[0] == "MOVE":
                     self.playGame(self.request, cmd)
-                if len(command) > 0 and command[0] == "CONNECT":
+                if command.size() > 0 andommand[0] == "CONNECT":
                     #s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                     #s.connect((IP, port))
                     userName = self.storeUsers(command[1], SERVER_PORTS, self.request, command[2])
                     while(True):
                         opponent = self.connectToOpponent(userName, command[2])
                         if(opponent):
-                            indx = opponent.index("_")
-                            opponentPort = int(opponent[indx+1:])
+                            opponentPort = int(opponent.split()[1])
                             myPort = self.port
                             if(opponentPort > myPort):
                                 opponent += " " + "1"
@@ -74,7 +73,7 @@ class Client(threading.Thread):
         self.request.close()
 
     def storeUsers(self, username, portNumber, socket, boardSize):
-        username += "_" + str(self.port)
+        username += " " + str(self.port)
         #portNumber, socket, playing
         userInfo = [portNumber, socket, "false", boardSize]
         userDict[username] = userInfo

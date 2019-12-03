@@ -12,7 +12,8 @@ namespace Go.View
     {
         //https://github.com/xamarin/xamarin-forms-samples/tree/master/BoxView/GameOfLife
         readonly int size;
-        public GoGame Game { get; set; } = new GoGame();
+        public GoGame Game { get; set; } 
+        
         public TcpClient Client { get; set; }
 
         public void OpponentSet(string opponent)
@@ -21,7 +22,9 @@ namespace Go.View
         }
         public GamePage(int size = 5)
         {
+     
             this.size = size-1;
+            Game = new GoGame(size + 2);
             InitializeComponent();
         }
 
