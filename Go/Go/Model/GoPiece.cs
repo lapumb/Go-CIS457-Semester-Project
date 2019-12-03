@@ -34,6 +34,7 @@ namespace Go.Model
                     string[] move = opponentMove.Split();
                     
                     Debug.WriteLine(opponentMove);
+                    game.PerformMove();
                 }
                 else
                     Debug.WriteLine("piece has already been used."); 
@@ -48,6 +49,13 @@ namespace Go.Model
         public Color GetColor()
         {
             return piece.BackgroundColor; 
+        }
+
+
+        public void removePiece()
+        {
+            piece.BackgroundColor = Color.Transparent;
+            piece.BorderColor = Color.Transparent;
         }
     }
 }

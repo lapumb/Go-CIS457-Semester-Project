@@ -76,9 +76,7 @@ namespace Go.View
                 for (int j = 0; j < size + 2; j++)
                 {
                     GoPiece piece = new GoPiece(Game);
-                    piece.row = i;
-                    piece.col = j;
-                    Game.GameGrid.Add("" + i + j, piece);
+                    Game.GameGrid[i, j] = piece;
                     flex.Children.Add(piece.GetPiece());
                 }
                 absolute.Children.Add(flex);
