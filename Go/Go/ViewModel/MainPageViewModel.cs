@@ -71,20 +71,20 @@ namespace Go.ViewModel
                             Running = false;                      
                             Debug.WriteLine("Connected to server.");
                             Connection.Instance.Client = gamePage.Client;
-                            Connection.Instance.Send("CONNECT Guest " + result);
+                            Connection.Instance.Send("CONNECT " + UserInfo.User.Username + " " + result);
                             string opponent = Connection.Instance.Receive();
                             Debug.WriteLine(opponent);
                             string[] opp = opponent.Split();
-                            string oppName = opp[0] + " " + opp[1];
-                            gamePage.OpponentSet(oppName);
+                            UserInfo.User.Username = opp[0];
+                            gamePage.OpponentSet(opp[0]);
 
                             Running = true; 
                             await App.MainPg.Navigation.PushAsync(gamePage);
-                            Running = false; 
-                            //if(Int32.Parse(opp[2]) == 1)
-                            //{
-                            //    gamePage.WaitForUserMove();
-                            //}
+                            Running = false;
+                            if (Int32.Parse(opp[1]) == 1)
+                            {
+                                gamePage.WaitForUserMove();
+                            }
                         }
                         else
                         {

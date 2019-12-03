@@ -47,7 +47,7 @@ namespace Go.Model
 
             if (Client.Connected)
             {
-                Instance.Send("QUIT lapumb");
+                Instance.Send("QUIT " + UserInfo.User.Username);
                 Debug.WriteLine("Sent 'QUIT', receiving: " + Instance.Receive());
                 Client.Close();
             }

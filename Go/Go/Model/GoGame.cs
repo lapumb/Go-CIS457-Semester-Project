@@ -27,7 +27,7 @@ namespace Go.Model
             GameGrid = new GoPiece[9, 9];
             blackScore = 0;
             whiteScore = 0;
-            InitBoard(19);
+            InitBoard(9);
         }
 
         private void InitBoard(int boardSize)
@@ -55,7 +55,7 @@ namespace Go.Model
 
         public void WaitForUserMove()
         {
-           // App.GameViewModel.Running = true;
+            App.GameViewModel.Running = true;
             string opponentMove = Connection.Instance.Receive();
             string[] move = opponentMove.Split();
             System.Diagnostics.Debug.WriteLine(opponentMove);
@@ -64,7 +64,7 @@ namespace Go.Model
             GoPiece oppPiece = GameGrid[row, col];
             Button oppBtn = oppPiece.GetPiece();
             oppPiece.BtnClick(this, oppBtn);
-            //App.GameViewModel.Running = false;
+            App.GameViewModel.Running = false;
         }
 
         /**

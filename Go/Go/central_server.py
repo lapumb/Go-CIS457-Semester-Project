@@ -7,8 +7,8 @@ from os import listdir, path
 
 PORT = 12000
 host_name = socket.gethostname() 
-#IP = socket.gethostbyname(host_name) 
-IP = "127.0.0.1"
+IP = socket.gethostbyname(host_name) 
+#IP = "127.0.0.1"
 SERVER_PORTS = 18397
 userDict = {}
 print("IP: " + IP)
@@ -41,7 +41,8 @@ class Client(threading.Thread):
                     while(True):
                         opponent = self.connectToOpponent(userName, command[2])
                         if(opponent):
-                            opponentPort = int(opponent.split()[1])
+                            indx = opponent.index("_")
+                            opponentPort = int(opponent[indx+1:])
                             myPort = self.port
                             if(opponentPort > myPort):
                                 opponent += " " + "1"
@@ -72,7 +73,7 @@ class Client(threading.Thread):
         self.request.close()
 
     def storeUsers(self, username, portNumber, socket, boardSize):
-        username += " " + str(self.port)
+        username += "_" + str(self.port)
         #portNumber, socket, playing
         userInfo = [portNumber, socket, "false", boardSize]
         userDict[username] = userInfo
