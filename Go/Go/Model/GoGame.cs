@@ -42,7 +42,7 @@ namespace Go.Model
             {
                 whiteScore += CheckForCaptures();
             }
-            IncrementTurn();
+            
         }
 
         public void WaitForUserMove()
@@ -52,13 +52,13 @@ namespace Go.Model
             string[] move = opponentMove.Split();
             if(move[0] == "MOVE")
             {
-            System.Diagnostics.Debug.WriteLine(opponentMove);
-            int row = Int32.Parse(move[2]);
-            int col = Int32.Parse(move[3]);
-            GoPiece oppPiece = GameGrid[row, col];
-            Button oppBtn = oppPiece.GetPiece();
-            oppPiece.BtnClick(this, oppBtn);
-            this.Turn = Int32.Parse(move[4]);
+                System.Diagnostics.Debug.WriteLine(opponentMove);
+                int row = Int32.Parse(move[2]);
+                int col = Int32.Parse(move[3]);
+                GoPiece oppPiece = GameGrid[row, col];
+                Button oppBtn = oppPiece.GetPiece();
+                oppPiece.BtnClick(this, oppBtn);
+                this.Turn = Int32.Parse(move[4]);
             }
             else if(move[0] == "QUIT")
             {
