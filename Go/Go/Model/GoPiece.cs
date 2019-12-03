@@ -21,7 +21,7 @@ namespace Go.Model
             piece.BorderColor = Color.Transparent;
             piece.Clicked += (sender, args) =>
             {
-                if (!used)
+                if (!used && (game.Turn % 2) == game.myColor)
                 {
                     BtnClick(game, sender);
                     if ((game.Turn % 2) == game.myColor)
