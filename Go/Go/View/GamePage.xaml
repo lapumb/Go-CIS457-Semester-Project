@@ -67,11 +67,6 @@
                     BorderColor="Black"
                     BorderWidth="1"
                     Padding="10"/>
-            <ActivityIndicator
-                VerticalOptions="EndAndExpand"
-                HorizontalOptions="Center"
-                Color="Blue"
-                IsRunning="{Binding Running}"/>
             <Button Text="Quit" Command="{Binding QuitCommand}" 
                     Visual="Material" 
                     BackgroundColor="AliceBlue"

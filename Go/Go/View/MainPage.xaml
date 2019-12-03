@@ -16,11 +16,6 @@
         <StackLayout Padding="20" 
                      HorizontalOptions="FillAndExpand" 
                      VerticalOptions="FillAndExpand">
-            <ActivityIndicator
-                VerticalOptions="EndAndExpand"
-                HorizontalOptions="Center"
-                Color="Blue"
-                IsRunning="{Binding Running}"/>
             <Button 
                 Text="Play!"
                 Visual="Material"

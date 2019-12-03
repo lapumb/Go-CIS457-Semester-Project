@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Acr.UserDialogs;
+using System;
 using Xamarin.Forms;
 
 namespace Go.Model
@@ -47,7 +48,7 @@ namespace Go.Model
 
         public void WaitForUserMove()
         {
-            App.GameViewModel.Running = true;
+            UserDialogs.Instance.ShowLoading("Waiting for other player..");
             string opponentMove = Connection.Instance.Receive();
             string[] move = opponentMove.Split();
             if(move[0] == "MOVE")
@@ -64,7 +65,7 @@ namespace Go.Model
             {
                 GameOver();
             }
-            App.GameViewModel.Running = false;
+            UserDialogs.Instance.HideLoading();
         }
 
         /**

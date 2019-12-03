@@ -24,7 +24,7 @@ namespace Go.Model
             if (Instance == null)
             {
                 Debug.WriteLine("C/S : , Instance is null. Returning.");
-                return; 
+                return;
             }
             else
             {
@@ -33,7 +33,7 @@ namespace Go.Model
                     NetworkStream stream = Instance.Client.GetStream();
                     byte[] message = Encoding.UTF8.GetBytes(data);
                     stream.Write(message, 0, message.Length);
-                } 
+                }
                 catch (Exception e)
                 {
                     Debug.WriteLine("C/S : Caught, " + e.Message);
@@ -66,27 +66,28 @@ namespace Go.Model
             }
             else
             {
-                NetworkStream stream = null; 
+                NetworkStream stream = null;
                 try
                 {
                     stream = Instance.Client.GetStream();
-                } 
+                }
                 catch (Exception e)
                 {
                     Debug.WriteLine("C/R: Cannot get network stream, exception : " + e.Message);
                 }
-
-                // Check to see if this NetworkStream is readable.
-                if (stream.CanRead)
+                try
                 {
-                    try
+                    // Check to see if this NetworkStream is readable.
+                    if (stream.CanRead)
                     {
+
                         byte[] myReadBuffer = new byte[1024];
                         int numberOfBytesRead = 0;
 
                         // Incoming message may be larger than the buffer size.
                         do
                         {
+                            //stream.ReadTimeout = 7000; 
                             numberOfBytesRead = stream.Read(myReadBuffer, 0, myReadBuffer.Length);
                             myCompleteMessage.AppendFormat("{0}", Encoding.ASCII.GetString(myReadBuffer, 0, numberOfBytesRead));
                         }
@@ -95,14 +96,14 @@ namespace Go.Model
                         Console.WriteLine("You received the following message : " +
                                                      myCompleteMessage);
                     }
-                    catch (Exception e)
+                    else
                     {
-                        Debug.WriteLine("C/R, caught : " + e.Message);
+                        Console.WriteLine("Sorry.  You cannot read from this NetworkStream.");
                     }
                 }
-                else
+                catch (Exception e)
                 {
-                    Console.WriteLine("Sorry.  You cannot read from this NetworkStream.");
+                    Debug.WriteLine("C/R, caught : " + e.Message);
                 }
             }
             return myCompleteMessage.ToString();
