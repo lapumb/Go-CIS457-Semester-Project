@@ -83,9 +83,15 @@ namespace Go.ViewModel
                             Running = true;
                             await App.MainPg.Navigation.PushAsync(gamePage);
                             Running = false;
+
                             if (Int32.Parse(opp[1]) == 1)
                             {
+                                gamePage.Game.myColor = 1;
                                 gamePage.WaitForUserMove();
+                            }
+                            else
+                            {
+                                gamePage.Game.myColor = 0;
                             }
                         }
                         else

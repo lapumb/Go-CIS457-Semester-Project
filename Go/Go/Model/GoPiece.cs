@@ -21,9 +21,16 @@ namespace Go.Model
             piece.BorderColor = Color.Transparent;
             piece.Clicked += (sender, args) =>
             {
-                BtnClick(game, sender);
-                Connection.Instance.Send("MOVE " + game.Opponent + " " + row.ToString() + " " + col.ToString() + " " + game.Turn.ToString());
-                game.WaitForUserMove();
+                if (!used)
+                {
+                    BtnClick(game, sender);
+                    if ((game.Turn % 2) == game.myColor)
+                    {
+                        game.IncrementTurn();
+                        Connection.Instance.Send("MOVE " + game.Opponent + " " + row.ToString() + " " + col.ToString() + " " + game.Turn.ToString());
+                        game.WaitForUserMove();
+                    }
+                }
             };
         }
 

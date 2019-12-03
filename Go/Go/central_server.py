@@ -32,7 +32,6 @@ class Client(threading.Thread):
                     self.quit(command[1], command[2])
                     return
                # port = int(command[len(command) - 1])
-                print("connecting...")
                 if len(command) > 0 and command[0] == "MOVE":
                     self.playGame(self.request, cmd)
                 if len(command) > 0 and command[0] == "CONNECT":
