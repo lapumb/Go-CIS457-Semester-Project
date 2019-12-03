@@ -41,13 +41,13 @@ namespace Go.Model
             }
         }
 
-        public void ClosingSequence()
+        public void ClosingSequence(string opponent)
         {
             if (Client == null) return;
 
             if (Client.Connected)
             {
-                Instance.Send("QUIT " + UserInfo.User.Username);
+                Instance.Send("QUIT " + UserInfo.User.Username + " " + opponent);
                 Debug.WriteLine("Sent 'QUIT', receiving: " + Instance.Receive());
                 Client.Close();
             }

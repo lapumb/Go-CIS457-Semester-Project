@@ -42,7 +42,7 @@ namespace Go.View
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
-            Connection.Instance.ClosingSequence(); 
+            Connection.Instance.ClosingSequence(Game.Opponent); 
             App.GamePg = null;
             App.Master.IsGestureEnabled = true;
         }

@@ -22,6 +22,7 @@ namespace Go.Model
             piece.Clicked += (sender, args) =>
             {
                 BtnClick(game, sender);
+                Connection.Instance.Send("MOVE " + game.Opponent + " " + row.ToString() + " " + col.ToString() + " " + game.Turn.ToString());
                 game.WaitForUserMove();
             };
         }
@@ -38,7 +39,6 @@ namespace Go.Model
                 //Seems like this is being done again in PerformMove
                // game.Turn++;
                 game.PerformMove();
-                Connection.Instance.Send("MOVE " + game.Opponent + " " + row.ToString() + " " + col.ToString() + " " + game.Turn.ToString());
             }
             else
                 Debug.WriteLine("piece has already been used.");

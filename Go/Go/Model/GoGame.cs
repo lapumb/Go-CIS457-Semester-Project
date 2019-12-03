@@ -51,6 +51,7 @@ namespace Go.Model
             System.Diagnostics.Debug.WriteLine(opponentMove);
             int row = Int32.Parse(move[2]);
             int col = Int32.Parse(move[3]);
+            //this.Turn = Int32.Parse(move[4]);
             GoPiece oppPiece = GameGrid[row, col];
             Button oppBtn = oppPiece.GetPiece();
             oppPiece.BtnClick(this, oppBtn);
@@ -207,7 +208,7 @@ namespace Go.Model
 
         public void IncrementTurn()
         {
-            Turn++;
+            Turn+=2;
             if (Turn >= GameGrid.Length)
                 GameOver();
         }

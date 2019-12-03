@@ -29,7 +29,7 @@ class Client(threading.Thread):
                 command = cmd.split()
                 print(command)
                 if len(command) > 0 and command[0] == "QUIT":
-                    self.quit(command[1])
+                    self.quit(command[1], command[2])
                     return
                # port = int(command[len(command) - 1])
                 print("connecting...")
@@ -39,6 +39,8 @@ class Client(threading.Thread):
                     #s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                     #s.connect((IP, port))
                     userName = self.storeUsers(command[1], SERVER_PORTS, self.request, command[2])
+                    self.request.send(userName.encode('utf-8'))
+                    self.request.recv(1024).decode('utf-8')
                     while(True):
                         opponent = self.connectToOpponent(userName, command[2])
                         if(opponent):
@@ -68,9 +70,16 @@ class Client(threading.Thread):
             #send move to opponent
             oppSock.send(cmd.encode('utf-8'))
 
-    def quit(self, userName):
+    def quit(self, userName, opponent):
         self.deleteUser(userName)
-        print("Client Has Disconnected")
+        opp = userDict.get(opponent)
+        if(opp):
+            oppSock = opp[1]
+            print(oppSock)
+            #oppSock.close()
+        self.deleteUser(opponent)
+        print(userName + " Has Disconnected")
+        print(opponent + " Has Disconnected")
         self.request.close()
 
     def storeUsers(self, username, portNumber, socket, boardSize):
