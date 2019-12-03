@@ -14,6 +14,11 @@ namespace Go.View
         readonly int size;
         public GoGame Game { get; set; } = new GoGame();
         public TcpClient Client { get; set; }
+
+        public void OpponentSet(string opponent)
+        {
+            Game.Opponent = opponent;
+        }
         public GamePage(int size = 5)
         {
             this.size = size-1;
@@ -70,7 +75,9 @@ namespace Go.View
 
                 for (int j = 0; j < size + 2; j++)
                 {
-                    GoPiece piece = new GoPiece(Game); 
+                    GoPiece piece = new GoPiece(Game);
+                    piece.row = i;
+                    piece.col = j;
                     Game.GameGrid.Add("" + i + j, piece);
                     flex.Children.Add(piece.GetPiece());
                 }

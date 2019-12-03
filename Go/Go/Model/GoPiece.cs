@@ -7,6 +7,8 @@ namespace Go.Model
     {
         private Button piece = new Button();
         private bool used = false; 
+        public int row { get; set; }
+        public int col { get; set; }
         public GoPiece(GoGame game)
         {
             int width = 33;  
@@ -27,6 +29,11 @@ namespace Go.Model
                     btn.BackgroundColor = game.Turn % 2 == 0 ? Color.Black : Color.White;
                     used = true;
                     game.Turn++;
+                    Connection.Instance.Send("MOVE " + game.Opponent + " " + row.ToString() + " " + col.ToString() + " " + game.Turn.ToString());
+                    string opponentMove = Connection.Instance.Receive();
+                    string[] move = opponentMove.Split();
+                    
+                    Debug.WriteLine(opponentMove);
                 }
                 else
                     Debug.WriteLine("piece has already been used."); 

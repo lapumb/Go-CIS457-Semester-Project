@@ -39,7 +39,8 @@ namespace Go.ViewModel
         /// </summary>
         public ICommand ToGameCommand => new Command(async () =>
         {
-            EndPoint = Utilities.Utilities.SetIpAddress("192.168.1.7");
+            //TODO: needs to be your own IP address
+            EndPoint = Utilities.Utilities.SetIpAddress("35.40.133.71");     //192.168.1.7
             //EndPoint = Utilities.Utilities.GetNetwork(); 
             Debug.WriteLine("Set Netowrk EndPoint (Connection) to : " + EndPoint.ToString()); 
             string[] btns =
@@ -67,9 +68,12 @@ namespace Go.ViewModel
                         gamePage.Client.ConnectAsync(EndPoint.Address, EndPoint.Port).Wait(TimeSpan.FromMilliseconds(5000));
                         if (gamePage.Client.Connected)
                         {
-                            Running = false;
+                            Running = false;                      
                             Debug.WriteLine("Connected to server.");
                             Connection.Instance.Client = gamePage.Client;
+                            Connection.Instance.Send("CONNECT jay");
+                            string opponent = Connection.Instance.Receive();
+                            gamePage.OpponentSet(opponent);
                             Running = true; 
                             await App.MainPg.Navigation.PushAsync(gamePage);
                             Running = false; 
