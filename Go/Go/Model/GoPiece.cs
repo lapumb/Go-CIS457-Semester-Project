@@ -19,21 +19,18 @@ namespace Go.Model
             piece.BorderWidth = 1;
             piece.BackgroundColor = Color.Transparent; //initially hide the button
             piece.BorderColor = Color.Transparent;
-            piece.Pressed += (sender, args) =>
+            piece.Clicked += (sender, args) =>
             {
                 if (!used && (game.Turn % 2) == game.myColor)
                 {
                     BtnClick(game, sender);
-                    
-                }
-            };
-            piece.Released += (sender, args) =>
-            {
                 if ((game.Turn % 2) == game.myColor)
                 {
                     game.IncrementTurn();
                     Connection.Instance.Send("MOVE " + game.Opponent + " " + row.ToString() + " " + col.ToString() + " " + game.Turn.ToString());
                     game.WaitForUserMove();
+                }
+                    
                 }
             };
         }
