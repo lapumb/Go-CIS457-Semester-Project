@@ -30,99 +30,55 @@ class Client(threading.Thread):
                 if command[0] == "QUIT":
                     self.quit(command[1])
                     return
-                port = int(command[len(command) - 1])
+               # port = int(command[len(command) - 1])
                 print("connecting...")
+                if command[0] == "MOVE":
+                    self.playGame(self.request, command)
                 if command[0] == "CONNECT":
-                    self.storeUsers(command[1], command[2], SERVER_PORTS, command[3])
-                    print("in connected")
-                    self.request.send(("ACK CONNECT " + str(SERVER_PORTS)).encode('utf-8'))
+                    #s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                    #s.connect((IP, port))
+                    self.storeUsers(command[1], SERVER_PORTS, self.request)
+                    while(True):
+                        opponent = self.connectToOpponent(command[1])
+                        if(opponent):
+                            self.request.send(opponent.encode('utf-8'))
+                            break
+                    #self.request.send(("ACK CONNECT " + str(SERVER_PORTS)).encode('utf-8'))
                     SERVER_PORTS = SERVER_PORTS + 2
                     continue
-                s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                s.connect((IP, port))
-                if command[0] == "FILEDESC":
-                    fileName = command[1]
-                    s.send(("ACK FILEDESC " + fileName).encode('utf-8'))
-                    self.stor(s, command[1])
-                    self.parseXML(s, command[1], command[2])
-                elif command[0] == "SEARCH":
-                    s.send(("ACK SEARCH").encode('utf-8'))
-                    self.search(command[1], command[2], s)
-                s.close()
+                #s.close()
             except socket.error as exc:
                 print("Connection error: " + str(exc))
-                    
-            #CONNECT Username Hostname ConnectionSpeed
-            #Send ACK command name
-            #FILEDESC FileName Username
-            #SEARCH DESCR Username
-            #LOCATION list
-            #QUIT Username
-            #wait for client to send username, hostname, and connection speed
-            #store username, hostname, and connection speed in a table/list
-            #send acknowledgement back to client
-            #wait for client to send xml file with shared file descriptions
-            #parse xml file and store descriptions in a table/list
-            #wait for user to send a keyword search
 
-    def stor(self, s, fileName):
-        f = open(fileName, "w")
-        print("Created file " + fileName)
-        line = s.recv(1024).decode('utf-8')
-        while line:
-            f.write(line)
-            line = s.recv(1024).decode('utf-8')
-        f.close()
-        print("File Downloaded")
-
-    def parseXML(self, s, fileName, userName):
-        if path.exists(fileName):
-            tree = ET.parse(fileName)
-            root = tree.getroot()
-            for child in root:
-                name = child[0].text
-                descr = child[1].text
-                self.storeFiles(userName, name, descr)
-            print("Successfully parsed XML file")
-            os.remove(fileName)
-        else:
-            print("Parse Failed")
-            s.send("Parse Failed".encode('utf-8'))
+    def playGame(self, sock, cmd):
+        print("In play Game")
+        #find opponent
+        opponent = userDict.get(cmd[1])
+        if(opponent):
+            oppSock = opponent[1]
+            print("opponent socket: " + str(oppSock))
+            #send move to opponent
+            oppSock.send(str(cmd).encode('utf-8'))
 
     def quit(self, userName):
         self.deleteUser(userName)
         print("Client Has Disconnected")
         self.request.close()
 
-    def storeUsers(self, username, hostName, portNumber, connSpeed):
-        userInfo = [hostName, portNumber, connSpeed]
+    def storeUsers(self, username, portNumber, socket):
+        #portNumber, socket, playing
+        userInfo = [portNumber, socket, "false"]
         userDict[username] = userInfo
-
-    def storeFiles(self, userName, fileName, description):
-        fileInfo = [userName, fileName, description]
-        fileList.append(fileInfo)
         
     def deleteUser(self, username):
-        global fileList
-        fileList = [f for f in fileList if f[0] != username]
         userDict.pop(username, None)
 
-    def search(self, srchString, userName, s):
-        #Let the client know that we are running the search so that it knows what to branch to
-        s.recv(1024).decode('utf-8')
-
-        #Goes through each file that is stores for all users
-        #fileList is an array of arrays formatted as [[username, filename, descr] [username...]]
-        for file in fileList:
-            fileName = file[1]
-            desc = file[2]
-            if srchString in fileName or srchString in desc:
-                #userDict is a dictionary of arrays of hostname, port number, connSpeed (like fileList)
-                user = userDict.get(file[0])
-                rtrnString = user[0] + " " + str(user[1]) + " " + file[1] + " " + user[2]    #hostname port fileName connSpeed
-                s.send(rtrnString.encode('utf-8'))
-                s.recv(1024).decode('utf-8')
-        s.send("EOF SEARCH".encode('utf-8'))
+    def connectToOpponent(self, userName):
+        for name, lst in userDict.items():
+            #find a user who is not in a current match and is not the current user
+            if(lst[2] == "false" and name != userName):
+                lst[2] = "true"
+                return str(name)
         
 serv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 serv.bind((IP, PORT))
