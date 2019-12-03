@@ -8,6 +8,16 @@ namespace Go.ViewModel
     public class GamePageViewModel : INotifyPropertyChanged
     {
 
+        private bool _running = false;
+        public bool Running
+        {
+            get { return _running; }
+            set
+            {
+                _running = value;
+                OnPropertyChanged(nameof(Running));
+            }
+        }
         public GamePageViewModel()
         {
             App.GameViewModel = this; 

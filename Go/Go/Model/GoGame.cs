@@ -7,6 +7,7 @@ namespace Go.Model
     {
         public GoPiece[,] GameGrid { get; set; }
 
+
         // When (turn % 2) == 0 it is Black's (player 1's) turn, otherwise it is White's (player 2's)
         public int Turn { get; set; } = 0;
         public string Opponent { get; set; }
@@ -54,6 +55,7 @@ namespace Go.Model
 
         public void WaitForUserMove()
         {
+           // App.GameViewModel.Running = true;
             string opponentMove = Connection.Instance.Receive();
             string[] move = opponentMove.Split();
             System.Diagnostics.Debug.WriteLine(opponentMove);
@@ -62,6 +64,7 @@ namespace Go.Model
             GoPiece oppPiece = GameGrid[row, col];
             Button oppBtn = oppPiece.GetPiece();
             oppPiece.BtnClick(this, oppBtn);
+            //App.GameViewModel.Running = false;
         }
 
         /**
@@ -268,7 +271,7 @@ namespace Go.Model
             await App.MainPg.DisplayAlert("Game Over", "The game is over. " + winner, "Okay");
             await App.MainPg.Navigation.PopAsync();
         }
+
     }
 
-    
 }

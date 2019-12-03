@@ -25,6 +25,11 @@ namespace Go.View
             InitializeComponent();
         }
 
+        public void WaitForUserMove()
+        {
+            Game.WaitForUserMove();
+        }
+
         protected override void OnAppearing()
         {
             base.OnAppearing();

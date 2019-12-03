@@ -37,14 +37,12 @@ class Client(threading.Thread):
                 if command[0] == "CONNECT":
                     #s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                     #s.connect((IP, port))
-                    userName = self.storeUsers(command[1], SERVER_PORTS, self.request)
+                    userName = self.storeUsers(command[1], SERVER_PORTS, self.request, command[2])
                     while(True):
-                        opponent = self.connectToOpponent(userName)
+                        opponent = self.connectToOpponent(userName, command[2])
                         if(opponent):
                             opponentPort = int(opponent.split()[1])
                             myPort = self.port
-                            print("opponent port: " + str(opponentPort))
-                            print("my port: " + str(self.port))
                             if(opponentPort > myPort):
                                 opponent += " " + "1"
                             else:
@@ -73,21 +71,20 @@ class Client(threading.Thread):
         print("Client Has Disconnected")
         self.request.close()
 
-    def storeUsers(self, username, portNumber, socket):
+    def storeUsers(self, username, portNumber, socket, boardSize):
         username += " " + str(self.port)
-        print(username)
         #portNumber, socket, playing
-        userInfo = [portNumber, socket, "false"]
+        userInfo = [portNumber, socket, "false", boardSize]
         userDict[username] = userInfo
         return username
         
     def deleteUser(self, username):
         userDict.pop(username, None)
 
-    def connectToOpponent(self, userName):
+    def connectToOpponent(self, userName, boardSize):
         for name, lst in userDict.items():
             #find a user who is not in a current match and is not the current user
-            if(lst[2] == "false" and name != userName):
+            if(lst[2] == "false" and name != userName and int(lst[3]) == int(boardSize)):
                 lst[2] = "true"
                 return str(name)
         
