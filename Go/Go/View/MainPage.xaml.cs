@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using Go.Model;
+using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace Go.View
@@ -10,6 +11,16 @@ namespace Go.View
         {
             App.MainPg = this;
             InitializeComponent();
+        }
+
+        private void UsernameEntry_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            UserInfo.User.Username = e.NewTextValue;
+        }
+
+        private void PasswordEntry_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            UserInfo.User.Password = e.NewTextValue;
         }
     }
 }

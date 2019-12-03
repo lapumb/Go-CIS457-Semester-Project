@@ -66,7 +66,16 @@ namespace Go.Model
             }
             else
             {
-                NetworkStream stream = Instance.Client.GetStream();
+                NetworkStream stream = null; 
+                try
+                {
+                    stream = Instance.Client.GetStream();
+                } 
+                catch (Exception e)
+                {
+                    Debug.WriteLine("C/R: Cannot get network stream, exception : " + e.Message);
+                }
+
                 // Check to see if this NetworkStream is readable.
                 if (stream.CanRead)
                 {

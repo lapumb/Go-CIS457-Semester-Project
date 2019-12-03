@@ -39,7 +39,7 @@ namespace Go.ViewModel
         /// </summary>
         public ICommand ToGameCommand => new Command(async () =>
         {
-            EndPoint = Utilities.Utilities.SetIpAddress("192.168.1.7");
+            EndPoint = Utilities.Utilities.SetIpAddress("35.39.165.61");
             //EndPoint = Utilities.Utilities.GetNetwork(); 
             Debug.WriteLine("Set Netowrk EndPoint (Connection) to : " + EndPoint.ToString()); 
             string[] btns =
