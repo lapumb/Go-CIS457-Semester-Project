@@ -75,10 +75,8 @@ class Client(threading.Thread):
         if(opp):
             oppSock = opp[1]
             print(oppSock)
-            #oppSock.close()
-        self.deleteUser(opponent)
+            oppSock.send("QUIT".encode('utf-8'))
         print(userName + " Has Disconnected")
-        print(opponent + " Has Disconnected")
         self.request.close()
 
     def storeUsers(self, username, portNumber, socket, boardSize):

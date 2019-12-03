@@ -14,6 +14,7 @@ namespace Go.Model
         public int blackScore;
         public int whiteScore;
         public int myColor;
+        public int whatever = 0;
 
         public GoGame(int boardSize)
         {
@@ -51,6 +52,8 @@ namespace Go.Model
            // App.GameViewModel.Running = true;
             string opponentMove = Connection.Instance.Receive();
             string[] move = opponentMove.Split();
+            if(move[0] == "MOVE")
+            {
             System.Diagnostics.Debug.WriteLine(opponentMove);
             int row = Int32.Parse(move[2]);
             int col = Int32.Parse(move[3]);
@@ -58,7 +61,11 @@ namespace Go.Model
             Button oppBtn = oppPiece.GetPiece();
             oppPiece.BtnClick(this, oppBtn);
             this.Turn = Int32.Parse(move[4]);
-
+            }
+            else if(move[0] == "QUIT")
+            {
+                GameOver();
+            }
             //App.GameViewModel.Running = false;
         }
 
@@ -96,6 +103,7 @@ namespace Go.Model
                     }
                 }
             }
+            whatever = 0;
             return numCaptures;
         }
 
@@ -109,62 +117,68 @@ namespace Go.Model
         private bool HasLiberties(int c, int r)
         {
             Color color = GameGrid[c, r].GetColor();
-            if (c > 0)
+            whatever++;
+            if (whatever < 100)
             {
-                if (GameGrid[c - 1, r].GetColor() == color)
+                if (c > 0)
                 {
-                    if (HasLiberties(c - 1, r))
+                    if (GameGrid[c - 1, r].GetColor() == color)
                     {
-                        return true;
+                        if (HasLiberties(c - 1, r))
+                        {
+                            return true;
+                        }
                     }
-                } else if (GameGrid[c - 1, r].GetColor() == Color.Transparent)
-                {
-                    return true;
-                }
-            }
-            if (c < GameGrid.Length - 1)
-            {
-                if (GameGrid[c + 1, r].GetColor() == color)
-                {
-                    if (HasLiberties(c + 1, r))
+                    else if (GameGrid[c - 1, r].GetColor() == Color.Transparent)
                     {
                         return true;
                     }
                 }
-                else if (GameGrid[c + 1, r].GetColor() == Color.Transparent)
+                if (c < GameGrid.Length - 1)
                 {
-                    return true;
-                }
-            }
-            if (r > 0)
-            {
-                if (GameGrid[c, r - 1].GetColor() == color)
-                {
-                    if (HasLiberties(c, r - 1))
+                    if (GameGrid[c + 1, r].GetColor() == color)
+                    {
+                        if (HasLiberties(c + 1, r))
+                        {
+                            return true;
+                        }
+                    }
+                    else if (GameGrid[c + 1, r].GetColor() == Color.Transparent)
                     {
                         return true;
                     }
                 }
-                else if (GameGrid[c, r - 1].GetColor() == Color.Transparent)
+                if (r > 0)
                 {
-                    return true;
-                }
-            }
-            if (r < GameGrid.Length - 1)
-            {
-                if (GameGrid[c, r + 1].GetColor() == color)
-                {
-                    if (HasLiberties(c, r + 1))
+                    if (GameGrid[c, r - 1].GetColor() == color)
+                    {
+                        if (HasLiberties(c, r - 1))
+                        {
+                            return true;
+                        }
+                    }
+                    else if (GameGrid[c, r - 1].GetColor() == Color.Transparent)
                     {
                         return true;
                     }
                 }
-                else if (GameGrid[c, r + 1].GetColor() == Color.Transparent)
+                if (r < GameGrid.Length - 1)
                 {
-                    return true;
+                    if (GameGrid[c, r + 1].GetColor() == color)
+                    {
+                        if (HasLiberties(c, r + 1))
+                        {
+                            return true;
+                        }
+                    }
+                    else if (GameGrid[c, r + 1].GetColor() == Color.Transparent)
+                    {
+                        return true;
+                    }
                 }
+                return false;
             }
-            return false;
+            return true;
         }
 
         /**
