@@ -21,7 +21,6 @@ namespace Go.View
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
-            App.MainPg = null;
         }
     }
 }
