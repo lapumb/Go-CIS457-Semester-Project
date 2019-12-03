@@ -40,7 +40,7 @@ namespace Go.ViewModel
         public ICommand ToGameCommand => new Command(async () =>
         {
             //TODO: needs to be your own IP address
-            EndPoint = Utilities.Utilities.SetIpAddress("127.0.0.1");     //192.168.1.7
+            EndPoint = Utilities.Utilities.SetIpAddress("35.39.165.61");     //192.168.1.7
             //EndPoint = Utilities.Utilities.GetNetwork(); 
             Debug.WriteLine("Set Netowrk EndPoint (Connection) to : " + EndPoint.ToString()); 
             string[] btns =
@@ -68,19 +68,19 @@ namespace Go.ViewModel
                         gamePage.Client.ConnectAsync(EndPoint.Address, EndPoint.Port).Wait(TimeSpan.FromMilliseconds(5000));
                         if (gamePage.Client.Connected)
                         {
-                            Running = false;                      
+                            Running = false;
                             Debug.WriteLine("Connected to server.");
                             Connection.Instance.Client = gamePage.Client;
-                            Connection.Instance.Send("CONNECT Guest " + result);
+                            Connection.Instance.Send("CONNECT " + UserInfo.User.Username + " " + result);
                             string opponent = Connection.Instance.Receive();
                             Debug.WriteLine(opponent);
                             string[] opp = opponent.Split();
                             string oppName = opp[0] + " " + opp[1];
                             gamePage.OpponentSet(oppName);
 
-                            Running = true; 
+                            Running = true;
                             await App.MainPg.Navigation.PushAsync(gamePage);
-                            Running = false; 
+                            Running = false;
                             //if(Int32.Parse(opp[2]) == 1)
                             //{
                             //    gamePage.WaitForUserMove();
@@ -88,10 +88,10 @@ namespace Go.ViewModel
                         }
                         else
                         {
-                            Running = false; 
+                            Running = false;
                             Debug.WriteLine("Could not connect to server");
                             await App.MainPg.DisplayAlert("Uh Oh..", "We could not connect you to the game server. " +
-                                "Please confirm your network connection.", "Okay", "Else");
+                                "Please confirm your network connection.", "Okay");
                         }
                     }
                     catch (Exception e)
@@ -104,6 +104,7 @@ namespace Go.ViewModel
                 }
                 catch (Exception e)
                 {
+                    Running = false;
                     Debug.WriteLine("caught general exception, " + e.Message);
                 }
             }

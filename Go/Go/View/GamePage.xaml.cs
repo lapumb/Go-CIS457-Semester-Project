@@ -13,7 +13,7 @@ namespace Go.View
         readonly int size;
         public GoGame Game { get; set; }
         public TcpClient Client { get; set; }
-
+        
         public void OpponentSet(string opponent)
         {
             Game.Opponent = opponent;
@@ -22,8 +22,9 @@ namespace Go.View
         public GamePage(int size = 5)
         {
             this.size = size-1;
-            Game = new GoGame(this.size);
+            Game = new GoGame(this.size+2);
             InitializeComponent();
+            InitLayout();
         }
 
         public void WaitForUserMove()
@@ -36,7 +37,6 @@ namespace Go.View
             base.OnAppearing();
             App.GamePg = this;
             App.Master.IsGestureEnabled = false;
-            InitLayout();
         }
 
         protected override void OnDisappearing()

@@ -7,7 +7,6 @@ namespace Go.Model
     {
         public GoPiece[,] GameGrid { get; set; }
 
-
         // When (turn % 2) == 0 it is Black's (player 1's) turn, otherwise it is White's (player 2's)
         public int Turn { get; set; } = 0;
         public string Opponent { get; set; }
@@ -20,14 +19,6 @@ namespace Go.Model
             blackScore = 0;
             whiteScore = 0;
             InitBoard(boardSize);
-        }
-
-        public GoGame()
-        {
-            GameGrid = new GoPiece[9, 9];
-            blackScore = 0;
-            whiteScore = 0;
-            InitBoard(19);
         }
 
         private void InitBoard(int boardSize)
@@ -269,9 +260,8 @@ namespace Go.Model
             }
 
             await App.MainPg.DisplayAlert("Game Over", "The game is over. " + winner, "Okay");
+            await App.FirebaseClient.AddRecentMatch(DateTime.Now, Opponent, blackScore, whiteScore); 
             await App.MainPg.Navigation.PopAsync();
         }
-
     }
-
 }
