@@ -11,9 +11,10 @@ namespace Go.View
         public MasterPage()
         {
             InitializeComponent();
-            App.Master = this; 
+            App.Master = this;
             //start by opening the main page
-            Detail = new NavigationPage(new MainPage());
+            //Detail = new NavigationPage(new MainPage());
+            Detail = new NavigationPage(new LoginPage());
             IsPresented = false;
         }
 

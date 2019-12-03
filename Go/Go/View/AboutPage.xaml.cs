@@ -12,5 +12,17 @@ namespace Go.View
             App.AboutPg = this; 
             InitializeComponent();
         }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            App.AboutPg = this;
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            App.AboutPg = null;
+        }
     }
 }

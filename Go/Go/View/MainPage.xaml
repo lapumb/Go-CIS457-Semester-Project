@@ -16,52 +16,13 @@
         <StackLayout Padding="20" 
                      HorizontalOptions="FillAndExpand" 
                      VerticalOptions="FillAndExpand">
-            <Label HorizontalOptions="CenterAndExpand" 
-                   VerticalOptions="CenterAndExpand" 
-                   Text="Login"
-                   TextColor="Blue"
-                   FontAttributes="Bold"
-                   FontSize="Title"/>
-            <FlexLayout HorizontalOptions="CenterAndExpand"
-                        VerticalOptions="Center"
-                        Direction="Column"
-                        Padding="15">
-                <Label HorizontalOptions="FillAndExpand" 
-                   Text="Username"
-                   TextColor="Black"
-                   FontAttributes="Bold"
-                   FontSize="Body"/>
-                <Entry x:Name="usernameEntry"
-                   HorizontalOptions="FillAndExpand"
-                   Placeholder="username"
-                   TextColor="Black"
-                   FontSize="Body"
-                   TextChanged="UsernameEntry_TextChanged"/>
-            </FlexLayout>
-            <FlexLayout HorizontalOptions="CenterAndExpand"
-                        VerticalOptions="Center"
-                        Direction="Column"
-                        Padding="15">
-                <Label HorizontalOptions="FillAndExpand" 
-                   Text="Password"
-                   TextColor="Black"
-                   FontAttributes="Bold"
-                   FontSize="Body"/>
-                <Entry x:Name="passwordEntry"
-                   HorizontalOptions="FillAndExpand"
-                   Placeholder="password"
-                   IsPassword="True"
-                   TextColor="Black"
-                   FontSize="Body"
-                   TextChanged="PasswordEntry_TextChanged"/>
-            </FlexLayout>
             <ActivityIndicator
                 VerticalOptions="EndAndExpand"
                 HorizontalOptions="Center"
                 Color="Blue"
                 IsRunning="{Binding Running}"/>
             <Button 
-                Text="Continue to Game As Guest"
+                Text="Play!"
                 Visual="Material"
                 BackgroundColor="AliceBlue"
                 FontAttributes="Bold"

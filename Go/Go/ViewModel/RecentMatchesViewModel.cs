@@ -5,6 +5,10 @@ namespace Go.ViewModel
 {
     public class RecentMatchesViewModel : INotifyPropertyChanged
     {
+        public RecentMatchesViewModel()
+        {
+            App.RecentsViewModel = this;
+        }
 
         /*changed event notifiers */
         public event PropertyChangedEventHandler PropertyChanged;

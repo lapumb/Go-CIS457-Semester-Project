@@ -7,7 +7,6 @@ namespace Go.ViewModel
 {
     public class GamePageViewModel : INotifyPropertyChanged
     {
-
         public GamePageViewModel()
         {
             App.GameViewModel = this; 

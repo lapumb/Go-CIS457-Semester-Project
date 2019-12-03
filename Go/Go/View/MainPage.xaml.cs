@@ -9,18 +9,19 @@ namespace Go.View
     {
         public MainPage()
         {
-            App.MainPg = this;
             InitializeComponent();
         }
 
-        private void UsernameEntry_TextChanged(object sender, TextChangedEventArgs e)
+        protected override void OnAppearing()
         {
-            UserInfo.User.Username = e.NewTextValue;
+            base.OnAppearing();
+            App.MainPg = this;
         }
 
-        private void PasswordEntry_TextChanged(object sender, TextChangedEventArgs e)
+        protected override void OnDisappearing()
         {
-            UserInfo.User.Password = e.NewTextValue;
+            base.OnDisappearing();
+            App.MainPg = null;
         }
     }
 }
