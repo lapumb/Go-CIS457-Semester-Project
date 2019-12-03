@@ -28,14 +28,14 @@ class Client(threading.Thread):
                 cmd = self.request.recv(1024).decode('utf-8')
                 command = cmd.split()
                 print(command)
-                if len(command) > 0 and command[0] == "QUIT":
+                if command.size() > 0 and command[0] == "QUIT":
                     self.quit(command[1])
                     return
                # port = int(command[len(command) - 1])
                 print("connecting...")
-                if len(command) > 0 and command[0] == "MOVE":
+                if command.size() > 0 and and command[0] == "MOVE":
                     self.playGame(self.request, cmd)
-                if len(command) > 0 and command[0] == "CONNECT":
+                if command.size() > 0 andommand[0] == "CONNECT":
                     #s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                     #s.connect((IP, port))
                     userName = self.storeUsers(command[1], SERVER_PORTS, self.request, command[2])

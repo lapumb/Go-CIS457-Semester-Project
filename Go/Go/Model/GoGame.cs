@@ -22,14 +22,7 @@ namespace Go.Model
             InitBoard(boardSize);
         }
 
-        public GoGame()
-        {
-            GameGrid = new GoPiece[9, 9];
-            blackScore = 0;
-            whiteScore = 0;
-            InitBoard(19);
-        }
-
+  
         private void InitBoard(int boardSize)
         {
             for (int c = 0; c < boardSize; c++)
