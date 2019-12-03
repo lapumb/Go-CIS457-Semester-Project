@@ -1,5 +1,4 @@
 ﻿using Go.Model;
-using System;
 using System.Diagnostics;
 using System.Net.Sockets;
 using Xamarin.Forms;
@@ -12,16 +11,18 @@ namespace Go.View
     {
         //https://github.com/xamarin/xamarin-forms-samples/tree/master/BoxView/GameOfLife
         readonly int size;
-        public GoGame Game { get; set; } = new GoGame();
+        public GoGame Game { get; set; }
         public TcpClient Client { get; set; }
 
         public void OpponentSet(string opponent)
         {
             Game.Opponent = opponent;
         }
+
         public GamePage(int size = 5)
         {
             this.size = size-1;
+            Game = new GoGame(this.size);
             InitializeComponent();
         }
 
