@@ -21,24 +21,27 @@ namespace Go.Model
             piece.BorderColor = Color.Transparent;
             piece.Clicked += (sender, args) =>
             {
-                if (!used)
-                {
-                    var btn = sender as Button;
-                    Debug.WriteLine("Button clicked.");
-                    btn.BorderColor = Color.Black;
-                    btn.BackgroundColor = game.Turn % 2 == 0 ? Color.Black : Color.White;
-                    used = true;
-                    game.Turn++;
-                    Connection.Instance.Send("MOVE " + game.Opponent + " " + row.ToString() + " " + col.ToString() + " " + game.Turn.ToString());
-                    string opponentMove = Connection.Instance.Receive();
-                    string[] move = opponentMove.Split();
-                    
-                    Debug.WriteLine(opponentMove);
-                    game.PerformMove();
-                }
-                else
-                    Debug.WriteLine("piece has already been used."); 
+                BtnClick(game, sender);
+                game.WaitForUserMove();
             };
+        }
+
+        public void BtnClick(GoGame game, object sender)
+        {
+            if (!used)
+            {
+                var btn = sender as Button;
+                Debug.WriteLine("Button clicked.");
+                btn.BorderColor = Color.Black;
+                btn.BackgroundColor = game.Turn % 2 == 0 ? Color.Black : Color.White;
+                used = true;
+                //Seems like this is being done again in PerformMove
+               // game.Turn++;
+                game.PerformMove();
+                Connection.Instance.Send("MOVE " + game.Opponent + " " + row.ToString() + " " + col.ToString() + " " + game.Turn.ToString());
+            }
+            else
+                Debug.WriteLine("piece has already been used.");
         }
 
         public Button GetPiece()

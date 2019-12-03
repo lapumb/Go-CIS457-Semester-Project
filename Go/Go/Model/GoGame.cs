@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using System;
+using Xamarin.Forms;
 
 namespace Go.Model
 {
@@ -12,10 +13,12 @@ namespace Go.Model
         public int blackScore;
         public int whiteScore;
 
-        public GoGame(int boardSize) {
+        public GoGame(int boardSize)
+        {
             GameGrid = new GoPiece[boardSize, boardSize];
             blackScore = 0;
             whiteScore = 0;
+            InitBoard(boardSize);
         }
 
         public GoGame()
@@ -23,6 +26,18 @@ namespace Go.Model
             GameGrid = new GoPiece[19, 19];
             blackScore = 0;
             whiteScore = 0;
+            InitBoard(19);
+        }
+
+        private void InitBoard(int boardSize)
+        {
+            for (int c = 0; c < boardSize; c++)
+            {
+                for (int r = 0; r < boardSize; r++)
+                {
+                    GameGrid[c, r] = new GoPiece(this);
+                }
+            }
         }
 
         public void PerformMove()
@@ -35,6 +50,18 @@ namespace Go.Model
                 whiteScore += CheckForCaptures();
             }
             IncrementTurn();
+        }
+
+        public void WaitForUserMove()
+        {
+            string opponentMove = Connection.Instance.Receive();
+            string[] move = opponentMove.Split();
+            System.Diagnostics.Debug.WriteLine(opponentMove);
+            int row = Int32.Parse(move[2]);
+            int col = Int32.Parse(move[3]);
+            GoPiece oppPiece = GameGrid[row, col];
+            Button oppBtn = oppPiece.GetPiece();
+            oppPiece.BtnClick(this, oppBtn);
         }
 
         /**

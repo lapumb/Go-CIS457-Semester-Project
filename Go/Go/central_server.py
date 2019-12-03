@@ -11,7 +11,6 @@ IP = socket.gethostbyname(host_name)
 #IP = "127.0.0.1"
 SERVER_PORTS = 18397
 userDict = {}
-fileList = []
 print("IP: " + IP)
 
 class Client(threading.Thread):
@@ -25,7 +24,8 @@ class Client(threading.Thread):
         global SERVER_PORTS
         while (True):
             try:
-                command = self.request.recv(1024).decode('utf-8').split()
+                cmd = self.request.recv(1024).decode('utf-8')
+                command = cmd.split()
                 print(command)
                 if command[0] == "QUIT":
                     self.quit(command[1])
@@ -33,14 +33,22 @@ class Client(threading.Thread):
                # port = int(command[len(command) - 1])
                 print("connecting...")
                 if command[0] == "MOVE":
-                    self.playGame(self.request, command)
+                    self.playGame(self.request, cmd)
                 if command[0] == "CONNECT":
                     #s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                     #s.connect((IP, port))
-                    self.storeUsers(command[1], SERVER_PORTS, self.request)
+                    userName = self.storeUsers(command[1], SERVER_PORTS, self.request)
                     while(True):
-                        opponent = self.connectToOpponent(command[1])
+                        opponent = self.connectToOpponent(userName)
                         if(opponent):
+                            opponentPort = int(opponent.split()[1])
+                            myPort = self.port
+                            print("opponent port: " + str(opponentPort))
+                            print("my port: " + str(self.port))
+                            if(opponentPort > myPort):
+                                opponent += " " + "1"
+                            else:
+                                opponent += " " + "0"
                             self.request.send(opponent.encode('utf-8'))
                             break
                     #self.request.send(("ACK CONNECT " + str(SERVER_PORTS)).encode('utf-8'))
@@ -51,14 +59,14 @@ class Client(threading.Thread):
                 print("Connection error: " + str(exc))
 
     def playGame(self, sock, cmd):
-        print("In play Game")
+        cmdSplit = cmd.split()
         #find opponent
-        opponent = userDict.get(cmd[1])
+        opponent = userDict.get(cmdSplit[1])
         if(opponent):
             oppSock = opponent[1]
             print("opponent socket: " + str(oppSock))
             #send move to opponent
-            oppSock.send(str(cmd).encode('utf-8'))
+            oppSock.send(cmd.encode('utf-8'))
 
     def quit(self, userName):
         self.deleteUser(userName)
@@ -66,9 +74,12 @@ class Client(threading.Thread):
         self.request.close()
 
     def storeUsers(self, username, portNumber, socket):
+        username += " " + str(self.port)
+        print(username)
         #portNumber, socket, playing
         userInfo = [portNumber, socket, "false"]
         userDict[username] = userInfo
+        return username
         
     def deleteUser(self, username):
         userDict.pop(username, None)
