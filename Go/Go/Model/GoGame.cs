@@ -7,11 +7,13 @@ namespace Go.Model
     {
         public GoPiece[,] GameGrid { get; set; }
 
+
         // When (turn % 2) == 0 it is Black's (player 1's) turn, otherwise it is White's (player 2's)
         public int Turn { get; set; } = 0;
         public string Opponent { get; set; }
         public int blackScore;
         public int whiteScore;
+        public int myColor;
 
         public GoGame(int boardSize)
         {
@@ -20,6 +22,8 @@ namespace Go.Model
             whiteScore = 0;
             InitBoard(boardSize);
         }
+
+  
         private void InitBoard(int boardSize)
         {
             for (int c = 0; c < boardSize; c++)
@@ -40,12 +44,11 @@ namespace Go.Model
             {
                 whiteScore += CheckForCaptures();
             }
-            IncrementTurn();
         }
 
         public void WaitForUserMove()
         {
-            App.GameViewModel.Running = true;
+           // App.GameViewModel.Running = true;
             string opponentMove = Connection.Instance.Receive();
             string[] move = opponentMove.Split();
             System.Diagnostics.Debug.WriteLine(opponentMove);
@@ -54,7 +57,8 @@ namespace Go.Model
             GoPiece oppPiece = GameGrid[row, col];
             Button oppBtn = oppPiece.GetPiece();
             oppPiece.BtnClick(this, oppBtn);
-            App.GameViewModel.Running = false;
+
+            //App.GameViewModel.Running = false;
         }
 
         /**
@@ -259,8 +263,9 @@ namespace Go.Model
             }
 
             await App.MainPg.DisplayAlert("Game Over", "The game is over. " + winner, "Okay");
-            await App.FirebaseClient.AddRecentMatch(DateTime.Now, Opponent, blackScore, whiteScore); 
             await App.MainPg.Navigation.PopAsync();
         }
+
     }
+
 }

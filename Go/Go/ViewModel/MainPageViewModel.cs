@@ -81,17 +81,16 @@ namespace Go.ViewModel
                             Running = true;
                             await App.MainPg.Navigation.PushAsync(gamePage);
                             Running = false;
-<<<<<<< HEAD
-                            //if(Int32.Parse(opp[2]) == 1)
-                            //{
-                            //    gamePage.WaitForUserMove();
-                            //}
-=======
+
                             if (Int32.Parse(opp[1]) == 1)
                             {
+                                gamePage.Game.myColor = 1;
                                 gamePage.WaitForUserMove();
                             }
->>>>>>> f2b9aea15f383771ceeb18890aea9859ff563bca
+                            else
+                            {
+                                gamePage.Game.myColor = 0;
+                            }
                         }
                         else
                         {

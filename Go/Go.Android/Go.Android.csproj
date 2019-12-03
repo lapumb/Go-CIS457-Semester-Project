@@ -15,7 +15,6 @@
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
-    <AndroidUseLatestPlatformSdk>false</AndroidUseLatestPlatformSdk>
     <TargetFrameworkVersion>v9.0</TargetFrameworkVersion>
     <AndroidEnableSGenConcurrent>true</AndroidEnableSGenConcurrent>
     <AndroidUseAapt2>true</AndroidUseAapt2>
@@ -94,7 +93,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Go\Go.csproj">
-      <Project>{BDC507BC-1A2B-4D9F-96DE-675D031B7D32}</Project>
+      <Project>{D1FD7FDC-0FAC-4CCD-8842-022958CDE35C}</Project>
       <Name>Go</Name>
     </ProjectReference>
   </ItemGroup>

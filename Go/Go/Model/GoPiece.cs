@@ -21,8 +21,16 @@ namespace Go.Model
             piece.BorderColor = Color.Transparent;
             piece.Clicked += (sender, args) =>
             {
-                BtnClick(game, sender);
-                game.WaitForUserMove();
+                if (!used)
+                {
+                    BtnClick(game, sender);
+                    if ((game.Turn % 2) == game.myColor)
+                    {
+                        game.IncrementTurn();
+                        Connection.Instance.Send("MOVE " + game.Opponent + " " + row.ToString() + " " + col.ToString() + " " + game.Turn.ToString());
+                        game.WaitForUserMove();
+                    }
+                }
             };
         }
 
@@ -38,7 +46,6 @@ namespace Go.Model
                 //Seems like this is being done again in PerformMove
                // game.Turn++;
                 game.PerformMove();
-                Connection.Instance.Send("MOVE " + game.Opponent + " " + row.ToString() + " " + col.ToString() + " " + game.Turn.ToString());
             }
             else
                 Debug.WriteLine("piece has already been used.");
