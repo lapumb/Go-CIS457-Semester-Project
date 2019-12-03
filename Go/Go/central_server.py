@@ -8,8 +8,8 @@ import copy
 
 PORT = 12000
 host_name = socket.gethostname() 
-#IP = socket.gethostbyname(host_name) 
-IP = "127.0.0.1"
+IP = socket.gethostbyname(host_name) 
+#IP = "127.0.0.1"
 #IP = "35.40.132.68"
 SERVER_PORTS = 18397
 userDict = {}

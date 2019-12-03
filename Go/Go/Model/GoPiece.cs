@@ -6,6 +6,8 @@ namespace Go.Model
 {
     public class GoPiece
     {
+        public delegate void WaitForUserMove(int row, int col, int turn, string opponent);
+        public event WaitForUserMove WaitForUserMoveEvent;
         private Button piece = new Button();
         private bool used = false; 
         public int row { get; set; }
@@ -20,13 +22,22 @@ namespace Go.Model
             piece.BorderWidth = 1;
             piece.BackgroundColor = Color.Transparent; //initially hide the button
             piece.BorderColor = Color.Transparent;
-            piece.Clicked += async (sender, args) =>
+            piece.Pressed += (sender, args) =>
             {
-                if (!used)
+                if (!used && (game.Turn % 2) == game.myColor)
                 {
                     BtnClick(game, sender);
+                    //WaitForUserMoveEvent(row, col, game.Turn, game.Opponent);
                 }
-                Debug.WriteLine("button Clicked"); 
+            };
+            piece.Released += (sender, args) =>
+            {
+                if ((game.Turn % 2) == game.myColor)
+                {
+                    game.IncrementTurn();
+                    Connection.Instance.Send("MOVE " + game.Opponent + " " + row.ToString() + " " + col.ToString() + " " + game.Turn.ToString());
+                    game.WaitForUserMove();
+                }
             };
         }
 
@@ -64,4 +75,6 @@ namespace Go.Model
             piece.BorderColor = Color.Transparent;
         }
     }
+
+
 }

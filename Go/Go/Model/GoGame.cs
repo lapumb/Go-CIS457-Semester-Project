@@ -48,7 +48,7 @@ namespace Go.Model
 
         public void WaitForUserMove()
         {
-            UserDialogs.Instance.ShowLoading("Waiting for other player..");
+            //UserDialogs.Instance.ShowLoading("Waiting for other player..");
             string opponentMove = Connection.Instance.Receive();
             string[] move = opponentMove.Split();
             if(move[0] == "MOVE")
@@ -56,6 +56,11 @@ namespace Go.Model
                 System.Diagnostics.Debug.WriteLine(opponentMove);
                 int row = Int32.Parse(move[2]);
                 int col = Int32.Parse(move[3]);
+                if(row == -1 || col == -1)
+                {
+                    this.Turn = Int32.Parse(move[4]);
+                    return;
+                }
                 GoPiece oppPiece = GameGrid[row, col];
                 Button oppBtn = oppPiece.GetPiece();
                 oppPiece.BtnClick(this, oppBtn);
@@ -65,7 +70,7 @@ namespace Go.Model
             {
                 GameOver();
             }
-            UserDialogs.Instance.HideLoading();
+            //UserDialogs.Instance.HideLoading();
         }
 
         /**

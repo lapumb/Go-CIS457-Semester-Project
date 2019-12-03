@@ -17,11 +17,13 @@ namespace Go.ViewModel
         {
             //pass the users turn
             App.GamePg.Game.IncrementTurn();
+            Model.Connection.Instance.Send("MOVE " + App.GamePg.Game.Opponent + " " + "-1 -1 " + App.GamePg.Game.Turn.ToString());
+            App.GamePg.Game.WaitForUserMove();
         });
 
         public ICommand QuitCommand => new Command(async () =>
         {
-            bool result = await App.MainPg.DisplayAlert("Confirm", "Are you sure you want to quit, lil bitch?", "Yes, I'm sure", "Cancel");
+            bool result = await App.MainPg.DisplayAlert("Confirm", "Are you sure you want to quit?", "Yes, I'm sure", "Cancel");
             if (result)
             {
                 //exit game sequence; close port, disconnect, etc.
