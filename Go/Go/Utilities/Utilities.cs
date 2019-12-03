@@ -11,7 +11,7 @@ namespace Go.Utilities
          */
         public static async void DisplayMessage(string title, string message)
         {
-            await App.Current.MainPage.DisplayAlert(title, message, "OK");
+            await App.Current.MainPage.DisplayAlert(title, message, "Okay");
         }
 
 

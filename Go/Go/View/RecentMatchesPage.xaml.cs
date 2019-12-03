@@ -1,11 +1,8 @@
 ﻿
 using Go.Model;
-using Go.Services;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -21,11 +18,25 @@ namespace Go.View
             Init();
             Debug.WriteLine(RecentMatches.Count);
             recentMatchesList.ItemsSource = RecentMatches;
+
+            if (string.IsNullOrEmpty(UserInfo.User.Username) || UserInfo.User.Username.Contains("Guest"))
+            {
+                Utilities.Utilities.DisplayMessage("Uh Oh..", "You must log in to view recent matches.");
+                recentMatchesList.IsVisible = false;
+                noRecentsAvailableLabel.IsVisible = true;
+            }
         }
 
-        protected override async void OnAppearing()
+        protected override void OnAppearing()
         {
             base.OnAppearing();
+            App.RecentsPg = this;
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            App.RecentsPg = null;
         }
 
         private async void Init()
@@ -41,12 +52,9 @@ namespace Go.View
             catch (Exception e)
             {
                 Debug.WriteLine("RMP/OA : " + e.Message);
+                Utilities.Utilities.DisplayMessage("Uh Oh..", "Recent matches are not available. Please check connection.");
+                return;
             }
-        }
-
-        private void RecentMatchesList_ItemSelected(object sender, SelectedItemChangedEventArgs e)
-        {
-
         }
     }
 }

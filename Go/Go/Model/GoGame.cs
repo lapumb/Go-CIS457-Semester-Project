@@ -24,7 +24,7 @@ namespace Go.Model
 
         public GoGame()
         {
-            GameGrid = new GoPiece[19, 19];
+            GameGrid = new GoPiece[9, 9];
             blackScore = 0;
             whiteScore = 0;
             InitBoard(19);

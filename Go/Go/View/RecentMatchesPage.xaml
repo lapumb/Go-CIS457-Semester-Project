@@ -21,8 +21,13 @@
                    TextColor="Black"
                    VerticalOptions="StartAndExpand" 
                    HorizontalOptions="StartAndExpand"/>
+            <Label x:Name="noRecentsAvailableLabel"
+                   Text="No Recent Matches Available"
+                   HorizontalOptions="CenterAndExpand"
+                   VerticalOptions="StartAndExpand"
+                   Padding="40"
+                   IsVisible="False"/>
             <ListView x:Name="recentMatchesList" 
-                      ItemSelected="RecentMatchesList_ItemSelected"
                       BackgroundColor="GhostWhite" 
                       SeparatorColor="Black"
                       VerticalOptions="FillAndExpand"
