@@ -21,8 +21,8 @@ namespace Go.View
 
         public GamePage(int size = 5)
         {
-            this.size = size-1;
-            Game = new GoGame(this.size+2);
+            this.size = size-2;
+            Game = new GoGame(size);
             InitializeComponent();
             InitLayout();
         }

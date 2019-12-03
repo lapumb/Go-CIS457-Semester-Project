@@ -40,7 +40,7 @@ namespace Go.ViewModel
         public ICommand ToGameCommand => new Command(async () =>
         {
             //TODO: needs to be your own IP address
-            EndPoint = Utilities.Utilities.SetIpAddress("127.0.0.1");     //192.168.1.7
+            EndPoint = Utilities.Utilities.SetIpAddress("35.40.132.68");     //192.168.1.7
             //EndPoint = Utilities.Utilities.GetNetwork(); 
             Debug.WriteLine("Set Netowrk EndPoint (Connection) to : " + EndPoint.ToString()); 
             string[] btns =
@@ -81,17 +81,11 @@ namespace Go.ViewModel
                             Running = true;
                             await App.MainPg.Navigation.PushAsync(gamePage);
                             Running = false;
-<<<<<<< HEAD
-                            //if(Int32.Parse(opp[2]) == 1)
-                            //{
-                            //    gamePage.WaitForUserMove();
-                            //}
-=======
+
                             if (Int32.Parse(opp[1]) == 1)
                             {
                                 gamePage.WaitForUserMove();
                             }
->>>>>>> f2b9aea15f383771ceeb18890aea9859ff563bca
                         }
                         else
                         {

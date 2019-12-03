@@ -54,7 +54,6 @@ namespace Go.Model
             return piece.BackgroundColor; 
         }
 
-
         public void removePiece()
         {
             piece.BackgroundColor = Color.Transparent;

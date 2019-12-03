@@ -259,7 +259,9 @@ namespace Go.Model
             }
 
             await App.MainPg.DisplayAlert("Game Over", "The game is over. " + winner, "Okay");
-            await App.FirebaseClient.AddRecentMatch(DateTime.Now, Opponent, blackScore, whiteScore); 
+            if (!UserInfo.User.Password.Contains("Guest"))
+                await App.FirebaseClient.AddRecentMatch(DateTime.Now, Opponent, blackScore, whiteScore); 
+
             await App.MainPg.Navigation.PopAsync();
         }
     }
