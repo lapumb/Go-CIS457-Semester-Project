@@ -1,5 +1,7 @@
 ﻿using Acr.UserDialogs;
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace Go.Model
@@ -15,7 +17,16 @@ namespace Go.Model
         public int whiteScore;
         public int myColor;
         public int whatever = 0;
+        public int passes = 0;
+        public string opMove { get; set; }
 
+        public delegate void TurnChangeHandler(object sender, EventArgs e);
+        public event TurnChangeHandler OnTurnChange;
+
+        public delegate void MoveHandler(object sender, MoveEventArgs e);
+        public event MoveHandler OnMove;
+
+        public Thread thread { get; set; }
         public GoGame(int boardSize)
         {
             GameGrid = new GoPiece[boardSize, boardSize];
@@ -29,47 +40,85 @@ namespace Go.Model
             {
                 for (int r = 0; r < boardSize; r++)
                 {
-                    GameGrid[c, r] = new GoPiece(this);
+                    GameGrid[c, r] = new GoPiece(r, c);
                 }
             }
         }
-
+        public void IncrementPasses()
+        {
+            passes++;
+            if (passes >= 2)
+            {
+                GameOver();
+            }
+        }
+        public void PlaceStone(int r, int c)
+        {
+            if ((Turn % 2) == myColor)
+            {
+                if (myColor == 0 && !GameGrid[c,r].Used())
+                {
+                    GameGrid[c, r].placeBlack();
+                    PerformMove();
+                    IncrementTurn();
+                    OnMove(this, new MoveEventArgs(1, 1)); // fix later
+                }
+                else if (myColor == 1 && !GameGrid[c,r].Used())
+                {
+                    GameGrid[c, r].placeWhite();
+                    PerformMove();
+                    IncrementTurn();
+                    OnMove(this, new MoveEventArgs(1, 1));
+                }
+            }
+        }
+        public void SendMove(int r, int c)
+        {
+            Connection.Instance.Send("MOVE " + Opponent + " " + r + " " + c + " " + Turn.ToString());
+            thread = new Thread(WaitForUserMove);
+            thread.Start();
+        }
         public void PerformMove()
         {
-            if ((Turn % 2) == 0)
-            {
-                blackScore += CheckForCaptures();
-            } else
-            {
-                whiteScore += CheckForCaptures();
-            }
-            
+            passes = 0;
+            CheckForCaptures();
         }
-
         public void WaitForUserMove()
         {
             //UserDialogs.Instance.ShowLoading("Waiting for other player..");
             string opponentMove = Connection.Instance.Receive();
             string[] move = opponentMove.Split();
-            if(move[0] == "MOVE")
+            Device.BeginInvokeOnMainThread(() =>
             {
-                System.Diagnostics.Debug.WriteLine(opponentMove);
-                int row = Int32.Parse(move[2]);
-                int col = Int32.Parse(move[3]);
-                if(row == -1 || col == -1)
+                if (move[0] == "MOVE")
                 {
-                    this.Turn = Int32.Parse(move[4]);
-                    return;
+                    System.Diagnostics.Debug.WriteLine(opponentMove);
+                    int row = Int32.Parse(move[2]);
+                    int col = Int32.Parse(move[3]);
+                    if (row == -1 || col == -1)
+                    {
+                        this.Turn = Int32.Parse(move[4]);
+                        IncrementPasses();
+                        OnTurnChange(this, new EventArgs());
+                        return;
+                    }
+                    if (myColor == 0)
+                    {
+                        GameGrid[col, row].placeWhite();
+                    }
+                    else
+                    {
+                        GameGrid[col, row].placeBlack();
+                    }
+                    PerformMove();
+                    Turn = Int32.Parse(move[4]);
+                    OnTurnChange(this, new EventArgs());
                 }
-                GoPiece oppPiece = GameGrid[row, col];
-                Button oppBtn = oppPiece.GetPiece();
-                oppPiece.BtnClick(this, oppBtn);
-                this.Turn = Int32.Parse(move[4]);
-            }
-            else if(move[0] == "QUIT")
-            {
-                GameOver();
-            }
+                else if (move[0] == "QUIT")
+                {
+                    GameOver();
+                }
+            });
             //UserDialogs.Instance.HideLoading();
         }
 
@@ -95,7 +144,8 @@ namespace Go.Model
                                 numCaptures += RemoveGroup(c, r);
                             }
                         }
-                    } else
+                    }
+                    else
                     {
                         if (GameGrid[c, r].GetColor() == Color.Black)
                         {
@@ -196,7 +246,7 @@ namespace Go.Model
             Color color = GameGrid[c, r].GetColor();
             //Captured starts at one to count itself
             int captured = 1;
-            GameGrid[c, r].removePiece();
+            GameGrid[c, r].RemovePiece();
             if (c > 0)
             {
                 if (GameGrid[c - 1, r].GetColor() == color)
@@ -230,9 +280,9 @@ namespace Go.Model
 
         public void IncrementTurn()
         {
+            System.Diagnostics.Debug.WriteLine("Increment Turn...");
             Turn++;
-            if (Turn >= GameGrid.Length)
-                GameOver();
+            OnTurnChange(this, new EventArgs());
         }
 
         public int GetBlackCount()
@@ -290,6 +340,16 @@ namespace Go.Model
             }
 
             await App.MainPg.Navigation.PopAsync();
+        }
+    }
+    public class MoveEventArgs : EventArgs
+    {
+        public int Row { get; private set; }
+        public int Col { get; private set; }
+        public MoveEventArgs(int r, int c)
+        {
+            Row = r;
+            Col = c;
         }
     }
 }

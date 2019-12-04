@@ -14,6 +14,9 @@
     </ContentPage.BindingContext>
 
     <StackLayout>
+        <Label Text=""
+               x:Name="TurnLabel"
+               FontSize="Medium"></Label>
         <AbsoluteLayout  Padding="20"
                             VerticalOptions="FillAndExpand" 
                             HorizontalOptions="FillAndExpand"

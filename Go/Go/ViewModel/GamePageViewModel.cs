@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -17,8 +18,8 @@ namespace Go.ViewModel
         {
             //pass the users turn
             App.GamePg.Game.IncrementTurn();
-            Model.Connection.Instance.Send("MOVE " + App.GamePg.Game.Opponent + " " + "-1 -1 " + App.GamePg.Game.Turn.ToString());
-            App.GamePg.Game.WaitForUserMove();
+            App.GamePg.Game.IncrementPasses();
+            App.GamePg.Game.SendMove(-1, -1);
         });
 
         public ICommand QuitCommand => new Command(async () =>

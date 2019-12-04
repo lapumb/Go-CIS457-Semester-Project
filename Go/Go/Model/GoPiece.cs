@@ -1,13 +1,12 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace Go.Model
-{
+{/*
     public class GoPiece
     {
-        public delegate void WaitForUserMove(int row, int col, int turn, string opponent);
-        public event WaitForUserMove WaitForUserMoveEvent;
         private Button piece = new Button();
         private bool used = false; 
         public int row { get; set; }
@@ -76,5 +75,70 @@ namespace Go.Model
         }
     }
 
+    */
+    public class GoPiece
+    {
+        private bool used { get; set; }
+        private int row { get; set; }
+        private int col { get; set; }
+        private Color color { get; set; }
 
+        public bool check { get; set; }
+
+        public delegate void ColorUpdateEventHandler(object sender, ColorUpdateEventArgs e);
+        public event ColorUpdateEventHandler OnColorUpdate;
+        public GoPiece(int r, int c)
+        {
+            used = false;
+            row = r;
+            col = c;
+            color = Color.Transparent;
+        }
+        public int GetRow()
+        {
+            return row;
+        }
+        public int GetCol()
+        {
+            return col;
+        }
+        public Color GetColor()
+        {
+            return color;
+        }
+
+        public bool Used()
+        {
+            return used;
+        }
+
+        public void RemovePiece()
+        {
+            color = Color.Transparent;
+            used = false;
+            OnColorUpdate(this, new ColorUpdateEventArgs(row, col));
+        }
+        public void placeBlack()
+        {
+            color = Color.Black;
+            used = true;
+            OnColorUpdate(this, new ColorUpdateEventArgs(row, col));
+        }
+        public void placeWhite()
+        {
+            color = Color.White;
+            used = true;
+            OnColorUpdate(this, new ColorUpdateEventArgs(row, col));
+        }
+    }
+    public class ColorUpdateEventArgs : EventArgs
+    {
+        public int Row { get; private set; }
+        public int Col { get; private set; }
+        public ColorUpdateEventArgs(int row, int col)
+        {
+            Row = row;
+            Col = col;
+        }
+    }
 }

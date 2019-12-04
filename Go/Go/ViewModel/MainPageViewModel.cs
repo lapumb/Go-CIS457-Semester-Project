@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -30,7 +31,7 @@ namespace Go.ViewModel
         public ICommand ToGameCommand => new Command(async () =>
         {
             //TODO: needs to be your own IP address
-            EndPoint = Utilities.Utilities.SetIpAddress("35.40.24.206");     //192.168.1.7
+            EndPoint = Utilities.Utilities.SetIpAddress("192.168.1.3");     //192.168.1.7
             //EndPoint = Utilities.Utilities.GetNetwork(); 
             Debug.WriteLine("Set Netowrk EndPoint (Connection) to : " + EndPoint.ToString()); 
             string[] btns =
@@ -77,7 +78,8 @@ namespace Go.ViewModel
                             if (Int32.Parse(opp[1]) == 1)
                             {
                                 gamePage.Game.myColor = 1;
-                                gamePage.WaitForUserMove();
+                                gamePage.Game.thread = new Thread(gamePage.Game.WaitForUserMove);
+                                gamePage.Game.thread.Start();
                             }
                             else
                             {
