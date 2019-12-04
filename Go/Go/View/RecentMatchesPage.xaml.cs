@@ -19,7 +19,7 @@ namespace Go.View
             Debug.WriteLine(RecentMatches.Count);
             recentMatchesList.ItemsSource = RecentMatches;
 
-            if (string.IsNullOrEmpty(UserInfo.User.Username) || UserInfo.User.Username.Contains("Guest") || RecentMatches.Count==0)
+            if (string.IsNullOrEmpty(UserInfo.User.Username) || UserInfo.User.Username.Contains("Guest"))
             {
                 Utilities.Utilities.DisplayMessage("Uh Oh..", "You must log in to view recent matches.");
                 recentMatchesList.IsVisible = false;
