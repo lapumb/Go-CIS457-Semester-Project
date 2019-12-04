@@ -64,7 +64,10 @@ namespace Go.ViewModel
                             Connection.Instance.Send("CONNECT " + UserInfo.User.Username + " " + result);
                             string userName = Connection.Instance.Receive().Split()[0];
                             Connection.Instance.Send("Ack");
-                            UserInfo.User.Username = userName;
+
+                            if (UserInfo.User.Username.Contains("Guest"))
+                                UserInfo.User.Username = userName;
+
                             string opponent = Connection.Instance.Receive();
                             Debug.WriteLine(opponent);
                             string[] opp = opponent.Split();
