@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="Go.View.GamePage"
+             Title="Go"
+             xmlns:vm="clr-namespace:Go.ViewModel">
+
+    <!--Setting the ViewModel for the view-->
+    <ContentPage.BindingContext>
+        <vm:GamePageViewModel></vm:GamePageViewModel>
+    </ContentPage.BindingContext>
+
+    <StackLayout>
+        <Label Text=""
+               x:Name="TurnLabel"
+               FontSize="Medium"></Label>
+        <AbsoluteLayout  Padding="20"
+                            VerticalOptions="FillAndExpand" 
+                            HorizontalOptions="FillAndExpand"
+                            AbsoluteLayout.LayoutFlags ="All">
+
+
+            <!--The four sides of the grid-->
+            <FlexLayout Direction="Row">
+                <BoxView HorizontalOptions="FillAndExpand" 
+                             WidthRequest="1" Color="Black"/>
+            </FlexLayout>
+            <FlexLayout Direction="RowReverse">
+                <BoxView HorizontalOptions="FillAndExpand" 
+                             WidthRequest="1" Color="Black"/>
+            </FlexLayout>
+            <FlexLayout Direction="Column">
+                <BoxView  VerticalOptions="CenterAndExpand" 
+                      HeightRequest="1" 
+                      Color="Black" />
+            </FlexLayout>
+            <FlexLayout Direction="ColumnReverse">
+                <BoxView  VerticalOptions="CenterAndExpand" 
+                      HeightRequest="1" 
+                      Color="Black" />
+            </FlexLayout>
+
+            <!--Layout for the column lines-->
+            <FlexLayout x:Name="columnsLayout" JustifyContent="SpaceEvenly">
+            </FlexLayout>
+
+            <!--Layout for the row lines-->
+            <FlexLayout x:Name="rowsLayout" 
+                            JustifyContent="SpaceEvenly" 
+                            Direction="Column">
+            </FlexLayout>
+
+            <FlexLayout x:Name="buttonsLayout"
+                JustifyContent="SpaceEvenly" 
+                            Direction="Column" 
+                            VerticalOptions="FillAndExpand" 
+                        HorizontalOptions="FillAndExpand"
+                        Padding="-40, -60, -40, -60">
+            </FlexLayout>
+        </AbsoluteLayout>
+
+        <!--Layout for the buttons-->
+        <FlexLayout Padding="10" JustifyContent="SpaceEvenly" HorizontalOptions="FillAndExpand">
+            <Button Text="Pass" Command="{Binding PassCommand}" 
+                    Visual="Material"
+                    BackgroundColor="AliceBlue"
+                    BorderColor="Black"
+                    BorderWidth="1"
+                    Padding="10"/>
+            <Button Text="Quit" Command="{Binding QuitCommand}" 
+                    Visual="Material" 
+                    BackgroundColor="AliceBlue"
+                    BorderColor="Black"
+                    BorderWidth="1"
+                    Padding="10"/>
+        </FlexLayout>
+    </StackLayout>
+</ContentPage>

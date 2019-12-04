@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="Go.View.LoginPage"             
+             xmlns:vm="clr-namespace:Go.ViewModel">
+
+    <!--Setting the ViewModel for the view-->
+    <ContentPage.BindingContext>
+        <vm:LoginPageViewModel></vm:LoginPageViewModel>
+    </ContentPage.BindingContext>
+    
+    <ContentPage.Content>
+        <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+            <Label HorizontalOptions="Center" 
+                   VerticalOptions="Center" 
+                   Text="Login"
+                   TextColor="Blue"
+                   FontAttributes="Bold"
+                   FontSize="Title"
+                   Padding="0,50"/>
+            <FlexLayout HorizontalOptions="CenterAndExpand"
+                        VerticalOptions="Center"
+                        Direction="Column"
+                        Padding="15">
+                <Label HorizontalOptions="FillAndExpand" 
+                   Text="Username"
+                   TextColor="Black"
+                   FontAttributes="Bold"
+                   FontSize="Body"/>
+                <Entry x:Name="usernameEntry"
+                   HorizontalOptions="FillAndExpand"
+                   Placeholder="username"
+                   TextColor="Black"
+                   FontSize="Body"
+                   TextChanged="UsernameEntry_TextChanged"/>
+            </FlexLayout>
+            <FlexLayout HorizontalOptions="CenterAndExpand"
+                        VerticalOptions="Center"
+                        Direction="Column"
+                        Padding="15">
+                <Label HorizontalOptions="FillAndExpand" 
+                   Text="Password"
+                   TextColor="Black"
+                   FontAttributes="Bold"
+                   FontSize="Body"/>
+                <Entry x:Name="passwordEntry"
+                   HorizontalOptions="FillAndExpand"
+                   Placeholder="password"
+                   IsPassword="True"
+                   TextColor="Black"
+                   FontSize="Body"
+                   TextChanged="PasswordEntry_TextChanged"/>
+            </FlexLayout>
+            <FlexLayout HorizontalOptions="CenterAndExpand"
+                        VerticalOptions="Center"
+                        Direction="Column"
+                        Padding="40,5">
+                <Button x:Name="loginBtn"
+                        Text="Login"
+                        HorizontalOptions="FillAndExpand"
+                        Visual="Material"
+                        BackgroundColor="AliceBlue"
+                        FontAttributes="Bold"
+                        Command="{Binding LoginCommand}"/>
+            </FlexLayout>
+            <FlexLayout HorizontalOptions="CenterAndExpand"
+                        VerticalOptions="Center"
+                        Direction="Column"
+                        Padding="40,5">
+                <Button x:Name="continueAsGuestBtn"
+                        Text="Continue As Guest" 
+                        HorizontalOptions="FillAndExpand"
+                        Visual="Material"
+                        BackgroundColor="AliceBlue"
+                        FontAttributes="Bold"
+                        Command="{Binding CAGCommand}"/>
+            </FlexLayout>
+            <Button x:Name="createAccountLabel"
+                   VerticalOptions="EndAndExpand"
+                   HorizontalOptions="CenterAndExpand"
+                   Text="Don't have an account? Create one!" 
+                   TextColor="Blue"
+                   BackgroundColor="Transparent"
+                   Command="{Binding CreateAccountCommand}"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
