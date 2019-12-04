@@ -17,9 +17,12 @@ namespace Go.ViewModel
         public ICommand PassCommand => new Command(() =>
         {
             //pass the users turn
-            App.GamePg.Game.IncrementTurn();
-            App.GamePg.Game.IncrementPasses();
-            App.GamePg.Game.SendMove(-1, -1);
+            if (App.GamePg.Game.Turn % 2 == App.GamePg.Game.myColor)
+            {
+                App.GamePg.Game.IncrementTurn();
+                App.GamePg.Game.IncrementPasses();
+                App.GamePg.Game.SendMove(-1, -1);
+            }
         });
 
         public ICommand QuitCommand => new Command(async () =>
