@@ -28,17 +28,6 @@ namespace Go.ViewModel
                     {
                         if (info.Password.Equals(UserInfo.User.Password))
                         {
-                            try
-                            {
-                                await App.FirebaseClient.AddRecentMatch(DateTime.Now, "TEST", 500, 7);
-                            }
-                            catch (Exception e)
-                            {
-                                Debug.Write("LPVM/LS, caught : " + e.Message);
-                                Utilities.Utilities.DisplayMessage("Uh Oh..", "Failed creating recent match log. Please check connection.");
-                                return;
-                            }
-
                             App.Master.Detail = new NavigationPage(new MainPage());
                             return;
                         }

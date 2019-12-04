@@ -332,7 +332,7 @@ namespace Go.Model
             }
 
             await App.MainPg.DisplayAlert("Game Over", "The game is over. " + winner, "Okay");
-            if (!UserInfo.User.Password.Contains("Guest"))
+            if (!UserInfo.User.Username.Contains("Guest"))
             {
                 var myScore = myColor == 1 ? whiteScore : blackScore;
                 var opponentScore = myColor == 0 ? blackScore : whiteScore;
