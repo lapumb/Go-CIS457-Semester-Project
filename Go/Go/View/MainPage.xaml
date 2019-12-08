@@ -9,18 +9,44 @@
              Title="Welcome To Go!">
 
     <ContentPage.BindingContext>
-        <vm:MainPageViewModel></vm:MainPageViewModel>
+        <vm:MainPageViewModel>
+        </vm:MainPageViewModel>
     </ContentPage.BindingContext>
-    
+
     <ContentPage.Content>
         <StackLayout Padding="20" 
                      HorizontalOptions="FillAndExpand" 
                      VerticalOptions="FillAndExpand">
+            <Image Source="{OnPlatform 
+                UWP=https://raw.githubusercontent.com/xamarin/xamarin-forms-samples/master/UserInterface/PlatformSpecifics/Droid/Resources/drawable/XamarinLogo.png,
+                Default=XamarinLogo}"
+                   HorizontalOptions="CenterAndExpand"
+                   VerticalOptions="StartAndExpand"/>
+            <FlexLayout Direction="Column" 
+                        VerticalOptions="CenterAndExpand">
+                <Label
+                    FontAttributes="Bold"
+                    TextColor="Black"
+                    FontSize="Large"
+                    VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="CenterAndExpand"
+                    Text="Enter the Server IP Address"/>
+                <Entry x:Name="ipInput"
+                    Placeholder="127.0.0.1"
+                    TextColor="Black"
+                    FontSize="Large"
+                    VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="CenterAndExpand"
+                    Keyboard="Numeric"/>
+            </FlexLayout>
+            <Entry  
+                    Placeholder="IP address of server..." 
+                    IsVisible="False"/>
             <Button 
-                Text="Play!"
-                Visual="Material"
-                BackgroundColor="AliceBlue"
-                FontAttributes="Bold"
+                    Text="Play!"
+                    Visual="Material"
+                    BackgroundColor="AliceBlue"
+                    FontAttributes="Bold"
                     VerticalOptions="End"
                     HorizontalOptions="CenterAndExpand"
                     Command="{Binding ToGameCommand}"/>

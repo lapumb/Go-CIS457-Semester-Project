@@ -30,9 +30,13 @@ namespace Go.ViewModel
         /// </summary>
         public ICommand ToGameCommand => new Command(async () =>
         {
-            //TODO: needs to be your own IP address
-            EndPoint = Utilities.Utilities.SetIpAddress("35.40.129.61");     //192.168.1.7
-            //EndPoint = Utilities.Utilities.GetNetwork(); 
+            if (App.MainPg.GetIpInput().Length == 0)
+            {
+                Debug.WriteLine("MPVM/TGC, input is empty. returning.");
+                return; 
+            }
+
+            EndPoint = Utilities.Utilities.SetIpAddress(App.MainPg.GetIpInput());     //192.168.1.7
             Debug.WriteLine("Set Netowrk EndPoint (Connection) to : " + EndPoint.ToString()); 
             string[] btns =
                 {

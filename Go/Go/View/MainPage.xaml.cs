@@ -1,5 +1,4 @@
-﻿using Go.Model;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace Go.View
@@ -10,6 +9,14 @@ namespace Go.View
         public MainPage()
         {
             InitializeComponent();
+        }
+
+        public string GetIpInput()
+        {
+            if (ipInput.Text == null)
+                return ""; 
+
+            return ipInput.Text; 
         }
 
         protected override void OnAppearing()
