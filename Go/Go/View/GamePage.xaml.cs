@@ -14,7 +14,7 @@ namespace Go.View
         public GoGame Game { get; set; }
         public TcpClient Client { get; set; }
 
-        public Button[,] buttons { get; set; }
+        public Button[,] Buttons { get; set; }
         
         public void OpponentSet(string opponent)
         {
@@ -26,7 +26,7 @@ namespace Go.View
         {
             this.size = size-1;
             Game = new GoGame(size+2);
-            buttons = new Button[(size + 2),(size + 2)];
+            Buttons = new Button[(size + 2),(size + 2)];
             InitializeComponent();
         }
 
@@ -74,29 +74,37 @@ namespace Go.View
             //grid lines
             for (int i = 0; i < size; i++)
             {
-                BoxView row = new BoxView();
-                row.VerticalOptions = LayoutOptions.CenterAndExpand;
-                row.HeightRequest = 1;
-                row.Color = Color.Black;
+                BoxView row = new BoxView
+                {
+                    VerticalOptions = LayoutOptions.CenterAndExpand,
+                    HeightRequest = 1,
+                    Color = Color.Black
+                };
                 rowsLayout.Children.Add(row);
 
-                BoxView col = new BoxView();
-                col.VerticalOptions = LayoutOptions.FillAndExpand;
-                col.WidthRequest = 1;
-                col.Color = Color.Black;
+                BoxView col = new BoxView
+                {
+                    VerticalOptions = LayoutOptions.FillAndExpand,
+                    WidthRequest = 1,
+                    Color = Color.Black
+                };
                 columnsLayout.Children.Add(col);
             }
 
             //circular buttons
             for (int i = 0; i < size + 2; i++)
             {
-                AbsoluteLayout absolute = new AbsoluteLayout();
-                absolute.VerticalOptions = LayoutOptions.FillAndExpand;
-                absolute.HorizontalOptions = LayoutOptions.FillAndExpand;
+                AbsoluteLayout absolute = new AbsoluteLayout
+                {
+                    VerticalOptions = LayoutOptions.FillAndExpand,
+                    HorizontalOptions = LayoutOptions.FillAndExpand
+                };
 
-                FlexLayout flex = new FlexLayout();
-                flex.JustifyContent = FlexJustify.SpaceEvenly;
-                flex.VerticalOptions = LayoutOptions.FillAndExpand;
+                FlexLayout flex = new FlexLayout
+                {
+                    JustifyContent = FlexJustify.SpaceEvenly,
+                    VerticalOptions = LayoutOptions.FillAndExpand
+                };
 
                 for (int j = 0; j < size + 2; j++)
                 {
@@ -104,7 +112,7 @@ namespace Go.View
                     GoPieceButton pieceButton = new GoPieceButton(piece);
                     pieceButton.GetButton().IsEnabled = true;
                     flex.Children.Add(pieceButton.GetButton());
-                    buttons[i, j] = pieceButton.GetButton(); 
+                    Buttons[i, j] = pieceButton.GetButton(); 
                 }
                 absolute.Children.Add(flex);
                 var scalar = 0; 
@@ -128,34 +136,34 @@ namespace Go.View
     public class GoPieceButton
     {
         private Button pieceButton = new Button();
-        private Model.GoPiece piece { get; set; }
+        private Model.GoPiece Piece { get; set; }
         public GoPieceButton(Model.GoPiece p)
         {
-            piece = p;
+            Piece = p;
             int width = 33;
             pieceButton.WidthRequest = width;
             pieceButton.HeightRequest = width;
             pieceButton.CornerRadius = (width / 2);
             pieceButton.HorizontalOptions = LayoutOptions.Center;
             pieceButton.BorderWidth = 1;
-            pieceButton.BackgroundColor = piece.GetColor(); //initially hide the button
+            pieceButton.BackgroundColor = Piece.GetColor(); //initially hide the button
             pieceButton.BorderColor = Color.Transparent;
             pieceButton.Pressed += (sender, args) =>
             {
-                App.GamePg.Game.PlaceStone(piece.GetRow(), piece.GetCol());
+                App.GamePg.Game.PlaceStone(Piece.GetRow(), Piece.GetCol());
             };
             pieceButton.Released += (sender, args) =>
             {
                 if (App.GamePg.MoveMade)
                 {
                     App.GamePg.MoveMade = false;
-                    App.GamePg.Game.SendMove(piece.GetRow(), piece.GetCol());
+                    App.GamePg.Game.SendMove(Piece.GetRow(), Piece.GetCol());
                 }
             };
-            piece.OnColorUpdate += (sender, args) =>
+            Piece.OnColorUpdate += (sender, args) =>
             {
-                pieceButton.BackgroundColor = piece.GetColor();
-                if (piece.GetColor() == Color.Transparent)
+                pieceButton.BackgroundColor = Piece.GetColor();
+                if (Piece.GetColor() == Color.Transparent)
                 {
                     pieceButton.BorderColor = Color.Transparent;
                 }
