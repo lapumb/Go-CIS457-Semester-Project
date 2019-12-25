@@ -16,7 +16,9 @@
     <StackLayout>
         <Label Text=""
                x:Name="TurnLabel"
-               FontSize="Medium"></Label>
+               FontSize="Medium"
+               TextColor="Black"/>
+        
         <AbsoluteLayout  Padding="20"
                             VerticalOptions="FillAndExpand" 
                             HorizontalOptions="FillAndExpand"
