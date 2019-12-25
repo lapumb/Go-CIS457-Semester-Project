@@ -37,7 +37,7 @@
                     FontSize="Large"
                     VerticalOptions="CenterAndExpand"
                     HorizontalOptions="CenterAndExpand"
-                    Keyboard="Numeric"/>
+                    Keyboard="Default"/>
             </FlexLayout>
             <Entry  
                     Placeholder="IP address of server..." 
